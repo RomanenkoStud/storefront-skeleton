@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import {api, apiPath, staffEntry} from '../../apps/web/src/api.js';
+import {ADMIN_TOOLS, consoleBase, toolFromPath, toolPath} from '../../apps/web/src/admin-routes.js';
+assert.equal(consoleBase('/admin'),'/admin');assert.equal(consoleBase('/staff/orders'),'/staff');assert.equal(consoleBase('/administrator'),null);assert.equal(consoleBase('/staffing/x'),null);
+assert.equal(toolFromPath('/admin'),'catalog');assert.equal(toolFromPath('/admin/'),'catalog');assert.equal(toolFromPath('/staff'),'catalog');
+assert.equal(toolFromPath('/admin/team'),'staff');assert.equal(toolFromPath('/staff/orders/'),'orders');assert.equal(toolFromPath('/admin/unknown'),null);assert.equal(toolFromPath('/admin/orders/x'),null);assert.equal(toolFromPath('/products/admin'),null);
+for(const {id} of ADMIN_TOOLS)for(const base of ['/admin','/staff'])assert.equal(toolFromPath(toolPath(base,id)),id);
+assert.equal(toolPath('/staff','staff'),'/staff/team');assert.equal(toolFromPath('/admin/duplicates'),'duplicates');
+{const source=(await import('node:fs')).readFileSync(new URL('../../apps/web/src/main.jsx',import.meta.url),'utf8');const nav=source.match(/\[\['dashboard',[^\n]*?\]\]\.filter/);assert.ok(nav,'sidebar tool list not found');const navIds=[...nav[0].matchAll(/\['([a-z]+)','/g)].map(m=>m[1]);assert.deepEqual(navIds,ADMIN_TOOLS.map(t=>t.id),'every sidebar tool needs a URL route, in the same order');}assert.throws(()=>toolPath('/account','catalog'));assert.throws(()=>toolPath('/admin','nope'));
+assert.equal(apiPath('/api/admin/products','/staff/orders'),'/api/staff/admin/products');assert.equal(apiPath('/api/admin/products','/admin/orders'),'/api/admin/products');
+assert.equal(staffEntry('/staff'),true);
+assert.equal(staffEntry('/staff/anything'),true);
+assert.equal(staffEntry('/staffing'),false);
+assert.equal(apiPath('/api/admin/products?q=1','/staff'),'/api/staff/admin/products?q=1');
+assert.equal(apiPath('/api/auth/session','/staff'),'/api/staff/session');
+assert.equal(apiPath('/api/admin/products','/admin'),'/api/admin/products');
+assert.equal(apiPath('/api/account/profile','/staff'),'/api/account/profile');
+assert.equal(apiPath('/api/administrator','/staff'),'/api/administrator');
+assert.equal(apiPath('/api/staff/google/start','/staff'),'/api/staff/google/start');
+const originalFetch=globalThis.fetch, originalWindow=globalThis.window, originalLocation=globalThis.location;
+let event, sent;
+globalThis.location={pathname:'/staff'};
+globalThis.window={dispatchEvent:value=>{event=value.type;}};
+try {
+ globalThis.fetch=async(path,options)=>{sent={path,options};return new Response(JSON.stringify({error:'Recent sign-in required',reauth:true}),{status:403});};
+ await assert.rejects(()=>api('/api/admin/staff',{method:'POST',body:{email:'fixture@example.test'}}),error=>error.status===403&&error.reauth===true);
+ assert.equal(event,'staff-reauth-required');
+ assert.equal(sent.path,'/api/staff/admin/staff');
+ assert.equal(sent.options.credentials,'same-origin');
+ assert.equal(sent.options.headers['Content-Type'],'application/json');
+ assert.deepEqual(JSON.parse(sent.options.body),{email:'fixture@example.test'});
+ globalThis.fetch=async()=>new Response(JSON.stringify({error:'Denied'}),{status:403});
+ await assert.rejects(()=>api('/api/admin/staff'),error=>error.reauth===false);
+} finally {globalThis.fetch=originalFetch;globalThis.window=originalWindow;globalThis.location=originalLocation;}
+console.log('Staff frontend routing and reauthentication transport tests passed');

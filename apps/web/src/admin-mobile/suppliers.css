@@ -1,0 +1,212 @@
+/* T4 suppliers, import modal, sync history. Rules go inside @media (max-width: 639.98px) or
+   @media (min-width: 640px) and (max-width: 1023.98px), every selector starts with .admin-shell, no !important, font sizes in rem,
+   colours from tokens (see base.css and tests/frontend/admin-mobile-css.test.js).
+   Existing supplier rules are (0,1,0)-(0,2,0) and load earlier, so the (0,2,0)+ selectors below win without !important.
+   Desktop DOM is unchanged: supplier cards are restyled with CSS only (action order uses `order`, DOM order stays the desktop one). */
+
+/* ---------- 1. Tablet: 44px targets (base.css covers buttons and inputs; links and the source line are added here) ---------- */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .admin-shell .supplier-info > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--hit);
+  }
+}
+
+/* ---------- 2. Phone: supplier cards ---------- */
+@media (max-width: 639.98px) {
+  .admin-shell .connected-supplier-sync {
+    padding: var(--space-3);
+  }
+  .admin-shell .connected-supplier-sync > .button {
+    width: 100%;
+    max-width: none;
+  }
+  .admin-shell .supplier-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+  .admin-shell .supplier-card {
+    display: block;
+    padding: var(--space-3);
+  }
+  .admin-shell .supplier-card .supplier-initial {
+    display: none;
+  }
+  .admin-shell .supplier-name {
+    gap: var(--space-2);
+  }
+  .admin-shell .supplier-name h3 {
+    flex: 1 1 100%;
+    font-size: 1rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  /* Source link or feed status: one ellipsised 44px line for URLs, free wrapping for status text */
+  .admin-shell .supplier-info > a {
+    display: block;
+    max-width: 100%;
+    min-height: var(--hit);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-wrap: anywhere;
+    font-size: 0.8125rem;
+    line-height: var(--hit);
+  }
+  .admin-shell .supplier-info .supplier-url-plain,
+  .admin-shell .supplier-info .feed-status {
+    display: block;
+    margin: 0;
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+  }
+  .admin-shell .supplier-info > small {
+    font-size: 0.75rem;
+  }
+  .admin-shell .supplier-info .supplier-counts {
+    margin: var(--space-2) 0 0;
+    font-size: 0.8125rem;
+  }
+  .admin-shell .supplier-info .inline-error,
+  .admin-shell .supplier-info .form-note {
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+  }
+  /* Inline forms: single column, full-width 44px buttons */
+  .admin-shell .supplier-rename-form,
+  .admin-shell .supplier-info .connection-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .admin-shell .supplier-rename-form > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .admin-shell .supplier-rename-form .button,
+  .admin-shell .supplier-rename-form .text-button,
+  .admin-shell .supplier-info .connection-form .button,
+  .admin-shell .supplier-info .connection-form .button.small {
+    width: 100%;
+    font-size: 0.8125rem;
+  }
+  .admin-shell .supplier-info .connection-form .field,
+  .admin-shell .supplier-rename-form .field {
+    margin-bottom: 0;
+  }
+  /* Actions: wrapped two-column grid of 44px buttons. The DOM order is the desktop order; `order` shows
+     Синхронізувати, Імпорт JSON, Перейменувати, Вимкнути/Увімкнути and the delete button last, separated. */
+  .admin-shell .supplier-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .admin-shell .supplier-actions .button,
+  .admin-shell .supplier-actions .text-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: var(--hit);
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.8125rem;
+    white-space: normal;
+    text-align: center;
+  }
+  .admin-shell .supplier-actions .text-button {
+    border: 1px solid var(--line);
+  }
+  .admin-shell .supplier-actions > :only-child {
+    grid-column: 1 / -1;
+  }
+  .admin-shell .supplier-actions > .act-sync {
+    order: 1;
+  }
+  .admin-shell .supplier-actions > .act-import {
+    order: 2;
+  }
+  .admin-shell .supplier-actions > .act-rename {
+    order: 3;
+  }
+  .admin-shell .supplier-actions > .act-toggle {
+    order: 4;
+  }
+  .admin-shell .supplier-actions > .danger-text {
+    order: 10;
+    grid-column: 1 / -1;
+    margin-top: var(--space-2);
+  }
+  /* Add forms */
+  .admin-shell .add-supplier form {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) var(--space-3) 0;
+  }
+  .admin-shell .add-supplier .form-note {
+    padding: 0 var(--space-3) var(--space-3);
+    font-size: 0.8125rem;
+  }
+  .admin-shell .add-supplier .button.full {
+    width: 100%;
+  }
+}
+
+/* ---------- 3. Phone: JSON import sheet (base.css section 4 makes every .modal full screen) ---------- */
+@media (max-width: 639.98px) {
+  .admin-shell .import-modal {
+    max-width: none;
+  }
+  .admin-shell .import-modal .modal-body {
+    padding: var(--space-3);
+  }
+  .admin-shell .import-modal textarea {
+    height: 12rem;
+    max-height: 12rem;
+    font-size: 1rem;
+    resize: none;
+  }
+  .admin-shell .import-modal .modal-footer {
+    padding: var(--space-2) var(--space-3);
+  }
+  .admin-shell .import-modal .modal-footer .button {
+    flex: 1 1 40%;
+    min-width: 0;
+    white-space: normal;
+  }
+}
+
+/* ---------- 4. Phone: sync history cards (table.m-cards.sync-cards) ---------- */
+/* Rows: status chip + time, supplier, «Товарів: N», then the error text when present. The shared grid has select/thumb columns this table does not use. */
+@media (max-width: 639.98px) {
+  .admin-shell table.m-cards.sync-cards tr {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "status sub"
+      "title title"
+      "meta meta";
+    align-items: center;
+  }
+  .admin-shell table.m-cards.sync-cards td.m-status {
+    justify-self: start;
+    margin-top: 0;
+  }
+  .admin-shell table.m-cards.sync-cards td.m-sub {
+    justify-self: end;
+  }
+  .admin-shell table.m-cards.sync-cards td.m-title {
+    margin-top: var(--space-2);
+  }
+  .admin-shell table.m-cards.sync-cards .sync-error {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+}

@@ -1,0 +1,207 @@
+/* T5 orders and duplicates. Stub from T1: add rules here only.
+   Rules go inside @media (max-width: 639.98px) or @media (min-width: 640px) and (max-width: 1023.98px), every selector starts with
+   .admin-shell, no !important, font sizes in rem, colours from tokens (see base.css and tests/frontend/admin-mobile-css.test.js). */
+
+/* ---------- Phone: orders list and detail ---------- */
+@media (max-width: 639.98px) {
+  .admin-shell .orders-panel .orders-lookup .field,
+  .admin-shell .orders-panel .orders-filters .field {
+    min-width: 0;
+  }
+  .admin-shell .orders-panel .orders-lookup .button,
+  .admin-shell .orders-panel .orders-filters > .button {
+    width: 100%;
+    margin-top: 0;
+  }
+  /* Cart cards: code button, status, then date, count, sum and profile. No select or thumbnail column. */
+  .admin-shell table.m-cards.orders-cards tr {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "title"
+      "status"
+      "meta";
+  }
+  .admin-shell table.m-cards.orders-cards td.m-title {
+    display: block;
+    overflow: visible;
+  }
+  .admin-shell table.m-cards.orders-cards td.m-title .button {
+    width: 100%;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .admin-shell table.m-cards.orders-cards td.m-status {
+    justify-self: start;
+  }
+  .admin-shell .orders-panel .orders-pager {
+    justify-content: center;
+  }
+  .admin-shell .orders-panel .orders-pager > span {
+    flex: 1 1 100%;
+    order: -1;
+    text-align: center;
+  }
+  .admin-shell .orders-panel .orders-pager > .button {
+    flex: 1 1 0;
+  }
+  /* Detail */
+  .admin-shell .orders-detail-body {
+    padding: var(--space-3);
+  }
+  .admin-shell .orders-detail .panel-title .text-button {
+    min-width: var(--hit);
+  }
+  .admin-shell .orders-detail .orders-bound-note {
+    margin: var(--space-2) 0 0;
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+  }
+  .admin-shell .orders-detail .orders-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .admin-shell .orders-detail .orders-facts dd {
+    overflow-wrap: anywhere;
+  }
+  .admin-shell .orders-detail .orders-actions {
+    max-width: none;
+  }
+  .admin-shell .orders-detail .orders-actions textarea {
+    width: 100%;
+    font-size: 1rem;
+  }
+  .admin-shell .orders-group {
+    padding: var(--space-3);
+  }
+  /* Supplier lines: one stacked card per line (title, size x quantity, price, cost, then IDs). */
+  .admin-shell table.m-cards.orders-lines tr {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
+  }
+  .admin-shell table.m-cards.orders-lines td.m-title,
+  .admin-shell table.m-cards.orders-lines td.m-meta {
+    grid-area: auto;
+  }
+  .admin-shell table.m-cards.orders-lines td.m-title {
+    display: block;
+    overflow: visible;
+  }
+  .admin-shell table.m-cards.orders-lines td.m-meta {
+    margin-top: var(--space-1);
+  }
+  .admin-shell .orders-group .orders-copy .button {
+    width: 100%;
+  }
+  .admin-shell .orders-group .orders-copy-state {
+    display: block;
+    margin: var(--space-1) 0 0;
+  }
+}
+
+/* ---------- Phone: duplicates ---------- */
+@media (max-width: 639.98px) {
+  .admin-shell .dup-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: var(--space-3) 0;
+  }
+  .admin-shell .dup-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .admin-shell .dup-tabs [role="tab"],
+  .admin-shell .dup-tabs .button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  .admin-shell .dup-panel .orders-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .admin-shell .dup-panel .orders-filters input,
+  .admin-shell .dup-panel .orders-filters select {
+    width: 100%;
+    max-width: none;
+  }
+  .admin-shell .dup-panel .orders-pager {
+    justify-content: center;
+  }
+  .admin-shell .dup-panel .orders-pager .button {
+    width: 100%;
+  }
+  .admin-shell .dup-card {
+    padding: var(--space-3);
+  }
+  .admin-shell .dup-card-head {
+    min-width: 0;
+  }
+  .admin-shell .dup-card-head > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  /* Product rows: checkbox, thumbnail, title, notes, cost and price, status, labelled facts, then actions. */
+  .admin-shell table.m-cards.dup-cards tr.dup-row {
+    margin-bottom: var(--space-2);
+  }
+  .admin-shell table.m-cards.dup-cards tr.dup-row-plain {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "thumb title title"
+      "thumb sub sub"
+      "price price status"
+      "meta meta meta"
+      "actions actions actions";
+  }
+  .admin-shell table.m-cards.dup-cards td.m-sub.dup-sub {
+    white-space: normal;
+    text-overflow: clip;
+  }
+  .admin-shell table.m-cards.dup-cards td.m-sub.dup-sub > span {
+    display: block;
+  }
+  .admin-shell table.m-cards.dup-cards td.m-select.dup-check {
+    width: auto;
+  }
+  /* Cells kept for a constant column count (assistive tech header pairing) hide when empty. */
+  .admin-shell table.m-cards.dup-cards td:empty {
+    display: none;
+  }
+  .admin-shell table.m-cards.dup-cards td.m-actions > .text-button {
+    border: 1px solid var(--line);
+    background: transparent;
+  }
+  /* Rejections: product names, who and when, then the full-width action. */
+  .admin-shell table.m-cards.dup-rejections tr {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
+  }
+  .admin-shell table.m-cards.dup-rejections td.m-sub,
+  .admin-shell table.m-cards.dup-rejections td.m-actions {
+    grid-area: auto;
+    white-space: normal;
+    overflow: visible;
+  }
+  /* Card footer actions: full-width 44px buttons, stacked. */
+  .admin-shell .dup-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .admin-shell .dup-actions .button {
+    flex: none;
+    width: 100%;
+  }
+  .admin-shell .dup-actions .form-note {
+    margin-right: 0;
+  }
+}
+
+/* ---------- Tablet: today's layout, 44px targets come from base.css ---------- */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .admin-shell .orders-panel .orders-pager .button,
+  .admin-shell .dup-actions .button {
+    min-height: var(--hit);
+  }
+}

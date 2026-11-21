@@ -1,0 +1,39 @@
+{
+  "name": "lorem-store",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "npm run build && wrangler dev --port 8787",
+    "dev:web": "vite --config apps/web/vite.config.js",
+    "build": "vite build --config apps/web/vite.config.js",
+    "test": "node tests/backend/catalog.test.js && node tests/backend/taxonomy.test.js && node tests/backend/customer-auth.test.js && node tests/backend/customer-profile.test.js && node tests/frontend/catalog-filters.test.js && node tests/frontend/account.test.js && node tests/frontend/background-removal.test.js && node tests/frontend/batch-cutout.test.js && node tests/backend/cloudflare-secrets.test.js && node tests/backend/seo-private-paths.test.js && node tests/backend/staging-config.test.js && node tests/backend/staging-worker.test.js && node tests/backend/staging-workflow.test.js && node tests/backend/staging-verified.test.js && node tests/backend/permissions.test.js && node tests/backend/staff-auth.test.js && node tests/backend/staff-admin.test.js && node tests/frontend/staff.test.js && node tests/backend/staff-key.test.js && node tests/backend/cart-contract.test.js && node tests/backend/carts.test.js && node tests/frontend/cart.test.js && node tests/frontend/orders.test.js && node tests/backend/picture-fit.test.js && node tests/backend/picture-templates.test.js && node tests/backend/picture-normalization.test.js && node tests/frontend/picture-render.test.js && node tests/frontend/picture-fitter.test.js && node tests/backend/np-catalog-sync.test.js && node tests/backend/nova-poshta.test.js && node tests/backend/np-catalog-workflow.test.js && node tests/backend/easydrop.test.js && node tests/backend/easydrop-sync.test.js && node tests/frontend/np-picker.test.js && node tests/frontend/easydrop.test.js && node tests/backend/duplicates.test.js && node tests/frontend/duplicates.test.js && node tests/backend/merged.test.js && node tests/backend/manual-products.test.js && node tests/backend/card-thumbnails.test.js && node tests/backend/card-thumbnails-sharp.test.js && node tests/backend/card-thumbnails-ssrf.test.js && node tests/backend/photo-derivatives.test.js && node tests/backend/card-thumbnails-workflow.test.js && node tests/backend/price-format.test.js && node tests/backend/product-page.test.js && node tests/frontend/page-ending.test.js && node tests/frontend/card-caption.test.js && node tests/frontend/header.test.js && node tests/frontend/campaign.test.js && node tests/frontend/posters.test.js && node tests/frontend/sold-out-order.test.js && node tests/backend/design-tokens.test.js && node tests/frontend/fresh-drop.test.js && node tests/frontend/cart-moment.test.js && node tests/frontend/brand.test.js && node tests/backend/storefront-settings.test.js && node tests/backend/campaign-pictures.test.js && node tests/backend/price-override.test.js && node tests/frontend/price-override.test.js && node tests/frontend/campaign-scenes.test.js && node tests/frontend/campaign-pictures.test.js && node tests/frontend/admin-mobile-css.test.js && node tests/frontend/product-tags.test.js && node tests/backend/storefront-images.test.js && node tests/frontend/storefront-images.test.js && node tests/backend/dashboard.test.js && node tests/frontend/dashboard.test.js && node tests/backend/media.test.js && node tests/frontend/media-library.test.js",
+    "check": "node tools/check.mjs",
+    "seed:demo": "node tools/seed-demo.mjs",
+    "assets:placeholders": "node tools/placeholder-assets.mjs",
+    "np:sync": "node tools/np-catalog-sync.mjs",
+    "db:migrate": "wrangler d1 migrations apply DB --local",
+    "deploy:check": "npm run build && wrangler deploy --dry-run",
+    "kanban": "python3 tools/kanban.py",
+    "test:e2e": "playwright test",
+    "kanban:web": "BDUI_RUNTIME_DIR=\"$PWD/.beads-ui\" npx --yes --package beads-ui@0.12.6 bdui start --host 127.0.0.1 --port 3001",
+    "kanban:web:stop": "BDUI_RUNTIME_DIR=\"$PWD/.beads-ui\" npx --yes --package beads-ui@0.12.6 bdui stop",
+    "stockify": "node tools/stockify.mjs",
+    "thumbs": "node tools/card-thumbnails.mjs"
+  },
+  "dependencies": {
+    "onnxruntime-web": "1.21.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "sharp": "0.35.5",
+    "vite": "^8.3.8",
+    "wrangler": "^4.161.0"
+  }
+}

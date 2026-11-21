@@ -1,0 +1,134 @@
+name: Card thumbnails
+# Nightly compression of every published product's MAIN photo into a small WebP card thumbnail (# tools/card-thumbnails.mjs). Originals are untouched and still used on the product page.
+# - schedule: production only.
+# - workflow_dispatch: pick the environment (production default, or staging for first tests), a per-run limit and dry run.
+# Runs only from main (GitHub schedules and lists dispatchable workflows from the default branch anyway). Each environment
+# needs its own dedicated Cloudflare API token (D1 edit + R2 read/write on that environment's database and bucket only);
+# without it the job reports a notice and succeeds, so this file is safe to merge before any token exists.
+# The deploy tokens (CLOUDFLARE_API_TOKEN, STAGING_CLOUDFLARE_API_TOKEN) are deliberately never used here.
+on:
+  schedule:
+    - cron: '40 1 * * *'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to process
+        type: choice
+        options:
+          - production
+          - staging
+        default: production
+      limit:
+        description: Maximum photos to process in this run (blank = tool default)
+        type: string
+        default: ''
+      dry_run:
+        description: Report only, write nothing
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  production:
+    name: Compress production card thumbnails
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || inputs.environment == 'production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    concurrency:
+      group: card-thumbnails-production
+      cancel-in-progress: false
+    steps:
+      - name: Check configuration
+        id: gate
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          THUMBS_CLOUDFLARE_API_TOKEN: ${{ secrets.THUMBS_CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$THUMBS_CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::notice::Production card thumbnails skipped: the dedicated thumbnail API token is not configured."
+            echo "Production card thumbnails skipped: the dedicated thumbnail API token is not configured." >> "$GITHUB_STEP_SUMMARY"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.gate.outputs.ready == 'true'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - if: steps.gate.outputs.ready == 'true'
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - if: steps.gate.outputs.ready == 'true'
+        run: npm ci
+      - name: Compress main photos
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          THUMBS_CLOUDFLARE_API_TOKEN: ${{ secrets.THUMBS_CLOUDFLARE_API_TOKEN }}
+          THUMBS_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
+          THUMBS_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+          LIMIT: ${{ inputs.limit }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args="--env prod"
+          if [ -n "$LIMIT" ]; then
+            case "$LIMIT" in *[!0-9]*) echo "::error::limit must be a whole number"; exit 1;; esac
+            args="$args --limit $LIMIT"
+          fi
+          if [ "$DRY_RUN" = "true" ]; then args="$args --dry-run"; fi
+          node tools/card-thumbnails.mjs $args
+
+  staging:
+    name: Compress staging card thumbnails
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.environment == 'staging'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    concurrency:
+      group: card-thumbnails-staging
+      cancel-in-progress: false
+    steps:
+      - name: Check configuration
+        id: gate
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          THUMBS_CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_THUMBS_CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$THUMBS_CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::notice::Staging card thumbnails skipped: the dedicated thumbnail API token is not configured."
+            echo "Staging card thumbnails skipped: the dedicated thumbnail API token is not configured." >> "$GITHUB_STEP_SUMMARY"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.gate.outputs.ready == 'true'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - if: steps.gate.outputs.ready == 'true'
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - if: steps.gate.outputs.ready == 'true'
+        run: npm ci
+      - name: Compress main photos
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          THUMBS_CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_THUMBS_CLOUDFLARE_API_TOKEN }}
+          THUMBS_D1_DATABASE_ID: ${{ vars.STAGING_D1_DATABASE_ID }}
+          THUMBS_R2_BUCKET: ${{ vars.STAGING_R2_BUCKET }}
+          LIMIT: ${{ inputs.limit }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args="--env staging"
+          if [ -n "$LIMIT" ]; then
+            case "$LIMIT" in *[!0-9]*) echo "::error::limit must be a whole number"; exit 1;; esac
+            args="$args --limit $LIMIT"
+          fi
+          if [ "$DRY_RUN" = "true" ]; then args="$args --dry-run"; fi
+          node tools/card-thumbnails.mjs $args

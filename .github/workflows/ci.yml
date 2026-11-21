@@ -1,0 +1,183 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+  # Read-only: the staging-first gate inspects staging.yml runs and merged pull requests.
+  actions: read
+  pull-requests: read
+jobs:
+  verify:
+    name: Verify tested commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      sha: ${{ steps.source.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Record exact tested commit
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - run: npx --no-install wrangler d1 migrations apply DB --local
+      - run: npx --no-install wrangler deploy --dry-run
+      # Browser e2e (npm run test:e2e) is not part of CI or the production gate.
+      # It runs nightly instead; setting that up is tracked in Beads.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catalog-web-${{ steps.source.outputs.sha }}
+          path: apps/web/dist
+          if-no-files-found: error
+          retention-days: 7
+
+  staging-gate:
+    name: Require feature tested on staging
+    # Staging-first release flow: a task branch is merged into `staging`, auto-deployed
+    # and tested there, then the SAME head is promoted to `main` by a second PR.
+    # PRs into main get an early answer; pushes to main are blocked from production.
+    if: >-
+      (github.event_name == 'pull_request' && github.base_ref == 'main') ||
+      (github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: tools/staging-verified.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Require the promoted head to be live on staging
+        uses: actions/github-script@v7
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          MAIN_SHA: ${{ github.sha }}
+        with:
+          script: |
+            const gate = await import(`${process.env.GITHUB_WORKSPACE}/tools/staging-verified.mjs`);
+            const { owner, repo } = context.repo;
+            if (context.eventName === 'pull_request') {
+              const run = await gate.requireOnStaging({ github, owner, repo, sha: process.env.PR_HEAD_SHA,
+                label: `PR #${process.env.PR_NUMBER} (${process.env.PR_HEAD_REF})` });
+              core.summary.addRaw(`PR head ${process.env.PR_HEAD_SHA} is live on staging (deploy ${run.head_sha}).\n`);
+            } else {
+              const { pull, run } = await gate.requirePromotion({ github, owner, repo, mainSha: process.env.MAIN_SHA });
+              core.summary.addRaw(`Main ${process.env.MAIN_SHA} promotes PR #${pull.number} head ${pull.sha}, live on staging (deploy ${run.head_sha}).\n`);
+            }
+            await core.summary.write();
+
+  deploy:
+    name: Deploy verified main to production
+    needs: [verify, staging-gate]
+    # PRs never receive deployment credentials. Manual runs use the same full CI.
+    # Production only ships a main commit whose promoted PR head is already live on staging.
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: cloudflare-production
+      cancel-in-progress: false
+    # Repository secrets/variables work on private repositories without requiring
+    # paid GitHub environments or protected-branch features.
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      MYDROP_API_KEY: ${{ secrets.MYDROP_API_KEY }}
+      CLOUDFLARE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
+      CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+      NP_CATALOG_BUCKET: ${{ vars.NP_CATALOG_BUCKET }}
+      CF_ACCESS_TEAM_NAME: ${{ vars.CF_ACCESS_TEAM_NAME }}
+      CF_ACCESS_AUD: ${{ vars.CF_ACCESS_AUD }}
+      CATALOG_PRODUCTION_URL: ${{ vars.CATALOG_PRODUCTION_URL }}
+      GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+      OIDC_REDIRECT_ORIGINS: ${{ vars.OIDC_REDIRECT_ORIGINS }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      CUSTOMER_AUTH_HMAC_KEY: ${{ secrets.CUSTOMER_AUTH_HMAC_KEY }}
+      TELEGRAM_CLIENT_SECRET: ${{ secrets.TELEGRAM_CLIENT_SECRET }}
+      # Optional read-only Account Analytics token for the cabinet infrastructure page.
+      CF_ANALYTICS_API_TOKEN: ${{ secrets.CF_ANALYTICS_API_TOKEN }}
+      GOOGLE_STAFF_CLIENT_ID: ${{ vars.GOOGLE_STAFF_CLIENT_ID }}
+      STAFF_OIDC_REDIRECT_ORIGINS: ${{ vars.STAFF_OIDC_REDIRECT_ORIGINS }}
+      GOOGLE_STAFF_CLIENT_SECRET: ${{ secrets.GOOGLE_STAFF_CLIENT_SECRET }}
+      STAFF_AUTH_HMAC_KEY: ${{ secrets.STAFF_AUTH_HMAC_KEY }}
+      CI: 'true'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - name: Reject superseded main commits
+        uses: actions/github-script@v7
+        env:
+          TESTED_SHA: ${{ needs.verify.outputs.sha }}
+        with:
+          script: |
+            const { data } = await github.rest.git.getRef({
+              owner: context.repo.owner, repo: context.repo.repo, ref: 'heads/main'
+            });
+            if (data.object.sha !== process.env.TESTED_SHA) {
+              core.setFailed('Main has advanced; this older tested commit will not replace production. Deploy the newest passing main run.');
+            }
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate every production input before remote changes
+        run: node tools/cloudflare-config.mjs
+      - uses: actions/download-artifact@v4
+        with:
+          name: catalog-web-${{ needs.verify.outputs.sha }}
+          path: apps/web/dist
+      - name: Validate production bundle locally
+        run: npx --no-install wrangler deploy --dry-run --config wrangler.production.json
+      - name: Apply production migrations
+        run: npx --no-install wrangler d1 migrations apply DB --remote --config wrangler.production.json
+      - name: Deploy tested code, assets and secret together
+        run: node tools/cloudflare-secrets.mjs --deploy
+      - name: Read-only production smoke checks
+        run: |
+          node --input-type=module <<'JS'
+          const base = process.env.CATALOG_PRODUCTION_URL;
+          if (!base) {
+            console.log('Smoke checks skipped: set repository variable CATALOG_PRODUCTION_URL to enable them.');
+            process.exit(0);
+          }
+          for (const path of ['/', '/api/health', '/api/products']) {
+            const response = await fetch(new URL(path, base), {
+              redirect: 'error', signal: AbortSignal.timeout(20000)
+            });
+            if (!response.ok) throw new Error(`Production smoke check ${path} returned HTTP ${response.status}`);
+            if (path === '/api/health' && (await response.json()).ok !== true) throw new Error('Production health response is invalid');
+            if (path === '/api/products' && !Array.isArray((await response.json()).items)) throw new Error('Production catalog response is invalid');
+          }
+          for (const [path, expected] of [['/api/staff/session', 200], ['/api/staff/admin/products', 401]]) {
+            const response = await fetch(new URL(path, base), { redirect: 'manual', signal: AbortSignal.timeout(20000) });
+            if (response.status !== expected || !response.headers.get('cache-control')?.includes('no-store')) throw new Error(`Staff smoke check ${path} failed (${response.status})`);
+            if (path.endsWith('/session') && (await response.json()).authenticated !== false) throw new Error('Anonymous staff session unexpectedly authenticated');
+          }
+          console.log('Production storefront, health and catalog smoke checks passed. No catalog data was changed.');
+          JS
+      - name: Record deployed commit
+        env:
+          TESTED_SHA: ${{ needs.verify.outputs.sha }}
+        run: echo "Deployed verified main commit $TESTED_SHA to Cloudflare production." >> "$GITHUB_STEP_SUMMARY"

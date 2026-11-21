@@ -1,0 +1,1067 @@
+{
+  "_comment": "SYNTHETIC demo catalog for Lorem Store. Brands, titles, prices and IDs are invented. Photos are /media/ keys of the generated placeholders in fixtures/demo-photos/ (tools/placeholder-assets.mjs); tools/seed-demo.mjs uploads them to local R2.",
+  "items": [
+    {
+      "externalId": "LS-DEMO-001",
+      "title": "Пальто Lorem Classico вовняне",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: вовна 60%, поліамід 40%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Пальта",
+      "costMinor": 125000,
+      "currency": "UAH",
+      "photos": [
+        "/media/540193f0-4a6f-4458-8dc9-1775e87b59bc.webp",
+        "/media/08bd3989-9234-4591-8d24-22a00bd39f75.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-001-xs",
+          "size": "XS",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-001-s",
+          "size": "S",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-001-m",
+          "size": "M",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-001-l",
+          "size": "L",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-001-xl",
+          "size": "XL",
+          "stock": 8
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-002",
+      "title": "Худі Ipsum Oversize",
+      "description": "Ут енім ад мінім веніам, квіс ноструд екзерцитаціон улламко. Лаборіс нісі ут аліквіп екс еа коммодо.\nМатеріал: бавовна 80%, поліестер 20%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Худі",
+      "costMinor": 89000,
+      "currency": "UAH",
+      "photos": [
+        "/media/a0dc0124-1852-4ca6-870b-76cf534068a5.webp",
+        "/media/b15e0660-1da9-4e98-8879-d19730934902.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-002-xs",
+          "size": "XS",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-002-s",
+          "size": "S",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-002-m",
+          "size": "M",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-002-l",
+          "size": "L",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-002-xl",
+          "size": "XL",
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-003",
+      "title": "Зіп-худі Dolor Zip",
+      "description": "Дуїс ауте іруре долор ін репрехендеріт ін волуптате веліт. Ессе ціллум долоре еу фугіат нулла.\nМатеріал: бавовна 80%, поліестер 20%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Худі на блискавці",
+      "costMinor": 94000,
+      "currency": "UAH",
+      "photos": [
+        "/media/f9361ada-6337-4f5c-8749-c6dc2c8f856e.webp",
+        "/media/a3f0b8f3-67ef-4416-8d9b-cc94237a08af.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-003-xs",
+          "size": "XS",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-003-s",
+          "size": "S",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-003-m",
+          "size": "M",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-003-l",
+          "size": "L",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-003-xl",
+          "size": "XL",
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-004",
+      "title": "Світшот Sitamet Crew",
+      "description": "Ексцептеур сінт оккаекат купідатат нон проідент. Сунт ін кульпа куі офіціа дезерунт молліт.\nМатеріал: бавовна 80%, поліестер 20%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Світшоти",
+      "costMinor": 72000,
+      "currency": "UAH",
+      "photos": [
+        "/media/de547d4e-0f47-4ac5-8ec8-ddc1415155d9.webp",
+        "/media/7d88d3c1-2816-4426-80a4-eb6cdb4aacdd.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-004-xs",
+          "size": "XS",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-004-s",
+          "size": "S",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-004-m",
+          "size": "M",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-004-l",
+          "size": "L",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-004-xl",
+          "size": "XL",
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-005",
+      "title": "Пуховик Consectetur Nimbus",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: нейлон 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Пуховики",
+      "costMinor": 210000,
+      "currency": "UAH",
+      "photos": [
+        "/media/b7af51d1-f85f-4636-8963-fb7dbc9a8de4.webp",
+        "/media/6db37962-f3d0-49c7-832f-5ca7f871d5e8.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-005-xs",
+          "size": "XS",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-005-s",
+          "size": "S",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-005-m",
+          "size": "M",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-005-l",
+          "size": "L",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-005-xl",
+          "size": "XL",
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-006",
+      "title": "Вітровка Adipisci Ventus",
+      "description": "Ут енім ад мінім веніам, квіс ноструд екзерцитаціон улламко. Лаборіс нісі ут аліквіп екс еа коммодо.\nМатеріал: нейлон 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Вітровки",
+      "costMinor": 115000,
+      "currency": "UAH",
+      "photos": [
+        "/media/76e389da-155e-4db3-8cb0-0cebbd758d7b.webp",
+        "/media/165db510-327a-4bf3-8e1f-846ca9bdc731.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-006-xs",
+          "size": "XS",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-006-s",
+          "size": "S",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-006-m",
+          "size": "M",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-006-l",
+          "size": "L",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-006-xl",
+          "size": "XL",
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-007",
+      "title": "Куртка Elitwear Urbano",
+      "description": "Дуїс ауте іруре долор ін репрехендеріт ін волуптате веліт. Ессе ціллум долоре еу фугіат нулла.\nМатеріал: нейлон 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Куртки",
+      "costMinor": 160000,
+      "currency": "UAH",
+      "photos": [
+        "/media/04a62bbf-f19d-4f1c-892d-620eabbdb264.webp",
+        "/media/d73b4241-ba8c-430c-8796-fb34e3a3d725.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-007-xs",
+          "size": "XS",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-007-s",
+          "size": "S",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-007-m",
+          "size": "M",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-007-l",
+          "size": "L",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-007-xl",
+          "size": "XL",
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-008",
+      "title": "Кардиган Sedcotto Lana",
+      "description": "Ексцептеур сінт оккаекат купідатат нон проідент. Сунт ін кульпа куі офіціа дезерунт молліт.\nМатеріал: вовна 60%, поліамід 40%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Кардигани",
+      "costMinor": 86000,
+      "currency": "UAH",
+      "photos": [
+        "/media/d043cf3b-f728-4a87-85e5-fb5dfdc852b8.webp",
+        "/media/208d987f-a9e0-446c-8e25-21ea5c9cead8.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-008-xs",
+          "size": "XS",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-008-s",
+          "size": "S",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-008-m",
+          "size": "M",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-008-l",
+          "size": "L",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-008-xl",
+          "size": "XL",
+          "stock": 3
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-009",
+      "title": "Светр Tempora Knit",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: вовна 60%, поліамід 40%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Светри",
+      "costMinor": 78000,
+      "currency": "UAH",
+      "photos": [
+        "/media/73da1e85-acc4-4e39-870f-fc34974decee.webp",
+        "/media/25feb7a7-7fed-44c5-8ff2-ea386c1240e5.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-009-xs",
+          "size": "XS",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-009-s",
+          "size": "S",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-009-m",
+          "size": "M",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-009-l",
+          "size": "L",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-009-xl",
+          "size": "XL",
+          "stock": 8
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-010",
+      "title": "Гольф Magnaline Fino",
+      "description": "Ут енім ад мінім веніам, квіс ноструд екзерцитаціон улламко. Лаборіс нісі ут аліквіп екс еа коммодо.\nМатеріал: вовна 60%, поліамід 40%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Гольфи",
+      "costMinor": 54000,
+      "currency": "UAH",
+      "photos": [
+        "/media/2ed0d997-3e0c-4ff1-8e83-5cba046a7f94.webp",
+        "/media/df6afa05-7a25-4537-83d9-f717bd6f80c6.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-010-xs",
+          "size": "XS",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-010-s",
+          "size": "S",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-010-m",
+          "size": "M",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-010-l",
+          "size": "L",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-010-xl",
+          "size": "XL",
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-011",
+      "title": "Футболка Lorem Basic",
+      "description": "Дуїс ауте іруре долор ін репрехендеріт ін волуптате веліт. Ессе ціллум долоре еу фугіат нулла.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Футболки",
+      "costMinor": 32000,
+      "currency": "UAH",
+      "photos": [
+        "/media/664cc11e-d14d-4db3-835e-7801af8dfe2b.webp",
+        "/media/71399243-a6a7-48d0-8841-5bf5bf183a6e.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-011-xs",
+          "size": "XS",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-011-s",
+          "size": "S",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-011-m",
+          "size": "M",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-011-l",
+          "size": "L",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-011-xl",
+          "size": "XL",
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-012",
+      "title": "Поло Ipsum Pique",
+      "description": "Ексцептеур сінт оккаекат купідатат нон проідент. Сунт ін кульпа куі офіціа дезерунт молліт.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Поло",
+      "costMinor": 41000,
+      "currency": "UAH",
+      "photos": [
+        "/media/cbc32b71-dcc8-4a6d-8804-fcce129a94a2.webp",
+        "/media/cdc40cae-dbcc-4f06-89f8-ee40bcf28b3c.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-012-xs",
+          "size": "XS",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-012-s",
+          "size": "S",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-012-m",
+          "size": "M",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-012-l",
+          "size": "L",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-012-xl",
+          "size": "XL",
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-013",
+      "title": "Сорочка Dolor Oxford",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Сорочки",
+      "costMinor": 58000,
+      "currency": "UAH",
+      "photos": [
+        "/media/e6eb96c8-3f26-4d8c-88b2-041d15a606b3.webp",
+        "/media/1a8eb54e-0dd1-4d1c-80f2-385b5faa8067.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-013-xs",
+          "size": "XS",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-013-s",
+          "size": "S",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-013-m",
+          "size": "M",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-013-l",
+          "size": "L",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-013-xl",
+          "size": "XL",
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-014",
+      "title": "Джинси Sitamet Straight",
+      "description": "Ут енім ад мінім веніам, квіс ноструд екзерцитаціон улламко. Лаборіс нісі ут аліквіп екс еа коммодо.\nМатеріал: денім 98%, еластан 2%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Джинси",
+      "costMinor": 98000,
+      "currency": "UAH",
+      "photos": [
+        "/media/c18a31ec-2cd7-41fd-8734-5d168548ba9d.webp",
+        "/media/860ee7d6-5744-43d5-8f91-a947f0c7ec25.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-014-28",
+          "size": "28",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-014-30",
+          "size": "30",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-014-32",
+          "size": "32",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-014-34",
+          "size": "34",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-014-36",
+          "size": "36",
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-015",
+      "title": "Штани карго Consectetur Field",
+      "description": "Дуїс ауте іруре долор ін репрехендеріт ін волуптате веліт. Ессе ціллум долоре еу фугіат нулла.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Карго",
+      "costMinor": 87000,
+      "currency": "UAH",
+      "photos": [
+        "/media/e03ab231-53b0-46fb-8a6e-1fe08084fc10.webp",
+        "/media/5fb36b1c-7af6-412f-8716-016d2a409167.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-015-xs",
+          "size": "XS",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-015-s",
+          "size": "S",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-015-m",
+          "size": "M",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-015-l",
+          "size": "L",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-015-xl",
+          "size": "XL",
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-016",
+      "title": "Спортивні штани Adipisci Run",
+      "description": "Ексцептеур сінт оккаекат купідатат нон проідент. Сунт ін кульпа куі офіціа дезерунт молліт.\nМатеріал: бавовна 80%, поліестер 20%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Спортивні штани",
+      "costMinor": 64000,
+      "currency": "UAH",
+      "photos": [
+        "/media/5a83faa2-d687-4744-8934-79649c3c8f81.webp",
+        "/media/0ceb5ff4-0c5f-49ee-8c94-1cd289159521.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-016-xs",
+          "size": "XS",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-016-s",
+          "size": "S",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-016-m",
+          "size": "M",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-016-l",
+          "size": "L",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-016-xl",
+          "size": "XL",
+          "stock": 3
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-017",
+      "title": "Шорти Elitwear Linen",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Шорти",
+      "costMinor": 46000,
+      "currency": "UAH",
+      "photos": [
+        "/media/da687e1e-3740-4ba0-8828-de6785474c2d.webp",
+        "/media/3d069851-d72e-4636-8520-46475d84af7b.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-017-xs",
+          "size": "XS",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-017-s",
+          "size": "S",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-017-m",
+          "size": "M",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-017-l",
+          "size": "L",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-017-xl",
+          "size": "XL",
+          "stock": 8
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-018",
+      "title": "Штани Sedcotto Chino",
+      "description": "Ут енім ад мінім веніам, квіс ноструд екзерцитаціон улламко. Лаборіс нісі ут аліквіп екс еа коммодо.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Штани",
+      "costMinor": 76000,
+      "currency": "UAH",
+      "photos": [
+        "/media/3e0f48f5-dc2e-42d6-84a8-1a22ed7ba6fe.webp",
+        "/media/1935b725-e5a7-4da5-8b5c-ae232ad3326a.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-018-xs",
+          "size": "XS",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-018-s",
+          "size": "S",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-018-m",
+          "size": "M",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-018-l",
+          "size": "L",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-018-xl",
+          "size": "XL",
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-019",
+      "title": "Спортивний костюм Tempora Active",
+      "description": "Дуїс ауте іруре долор ін репрехендеріт ін волуптате веліт. Ессе ціллум долоре еу фугіат нулла.\nМатеріал: бавовна 80%, поліестер 20%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Костюми",
+      "costMinor": 135000,
+      "currency": "UAH",
+      "photos": [
+        "/media/35819161-d668-49ee-891e-bc6588f22d0e.webp",
+        "/media/22683500-36e6-4b31-8897-f7776ba19fb1.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-019-xs",
+          "size": "XS",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-019-s",
+          "size": "S",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-019-m",
+          "size": "M",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-019-l",
+          "size": "L",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-019-xl",
+          "size": "XL",
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-020",
+      "title": "Кросівки Magnaline Runner",
+      "description": "Ексцептеур сінт оккаекат купідатат нон проідент. Сунт ін кульпа куі офіціа дезерунт молліт.\nМатеріал: текстиль, гумова підошва.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Кросівки",
+      "costMinor": 142000,
+      "currency": "UAH",
+      "photos": [
+        "/media/e7f41ddd-46da-458e-87bb-9c5912afd55a.webp",
+        "/media/5d564e40-cd49-40bf-8711-4576070c3df4.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-020-39",
+          "size": "39",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-020-40",
+          "size": "40",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-020-41",
+          "size": "41",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-020-41-5",
+          "size": "41.5",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-020-42",
+          "size": "42",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-020-43",
+          "size": "43",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-020-44",
+          "size": "44",
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-021",
+      "title": "Кеди Lorem Canvas",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: текстиль, гумова підошва.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Кеди",
+      "costMinor": 68000,
+      "currency": "UAH",
+      "photos": [
+        "/media/a36cabb9-35cf-4be4-80e3-eff8eb81b4b4.webp",
+        "/media/99bee4da-713d-4be8-824b-10af5cd873eb.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-021-39",
+          "size": "39",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-021-40",
+          "size": "40",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-021-41",
+          "size": "41",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-021-41-5",
+          "size": "41.5",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-021-42",
+          "size": "42",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-021-43",
+          "size": "43",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-021-44",
+          "size": "44",
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-022",
+      "title": "Черевики Ipsum Trail",
+      "description": "Ут енім ад мінім веніам, квіс ноструд екзерцитаціон улламко. Лаборіс нісі ут аліквіп екс еа коммодо.\nМатеріал: екошкіра, гумова підошва.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Черевики",
+      "costMinor": 175000,
+      "currency": "UAH",
+      "photos": [
+        "/media/9903d990-28be-45a8-83b4-265a67b45058.webp",
+        "/media/43460585-9adc-48db-8b29-3ce0307a8f9a.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-022-39",
+          "size": "39",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-022-40",
+          "size": "40",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-022-41",
+          "size": "41",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-022-41-5",
+          "size": "41.5",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-022-42",
+          "size": "42",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-022-43",
+          "size": "43",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-022-44",
+          "size": "44",
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-023",
+      "title": "Лофери Dolor Velluto",
+      "description": "Дуїс ауте іруре долор ін репрехендеріт ін волуптате веліт. Ессе ціллум долоре еу фугіат нулла.\nМатеріал: екошкіра, гумова підошва.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Лофери",
+      "costMinor": 120000,
+      "currency": "UAH",
+      "photos": [
+        "/media/41dc16b2-49da-4df5-81f9-5aeee7d0e2ad.webp",
+        "/media/91d77d71-16fb-4304-8cbf-174b5f03f693.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-023-39",
+          "size": "39",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-023-40",
+          "size": "40",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-023-41",
+          "size": "41",
+          "stock": 8
+        },
+        {
+          "id": "ls-demo-023-41-5",
+          "size": "41.5",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-023-42",
+          "size": "42",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-023-43",
+          "size": "43",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-023-44",
+          "size": "44",
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-024",
+      "title": "Капці Sitamet Soft",
+      "description": "Ексцептеур сінт оккаекат купідатат нон проідент. Сунт ін кульпа куі офіціа дезерунт молліт.\nМатеріал: текстиль, гумова підошва.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Капці",
+      "costMinor": 28000,
+      "currency": "UAH",
+      "photos": [
+        "/media/2f7f3349-e7df-43b9-8249-aa84f6de1159.webp",
+        "/media/c224031b-11cb-417f-8727-a02b93bfa4ea.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-024-38-39",
+          "size": "38-39",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-024-40-41",
+          "size": "40-41",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-024-42-43",
+          "size": "42-43",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-024-44-45",
+          "size": "44-45",
+          "stock": 8
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-025",
+      "title": "Сумка Consectetur Tote",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: екошкіра, гумова підошва.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Сумки",
+      "costMinor": 52000,
+      "currency": "UAH",
+      "photos": [
+        "/media/1f51a208-2fc9-4181-805e-95877bcb3479.webp",
+        "/media/ca2cf39c-d0f1-48f1-8312-619541948da0.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-025-one",
+          "size": "Один розмір",
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-026",
+      "title": "Кепка Adipisci Arco",
+      "description": "Ут енім ад мінім веніам, квіс ноструд екзерцитаціон улламко. Лаборіс нісі ут аліквіп екс еа коммодо.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Кепки",
+      "costMinor": 22000,
+      "currency": "UAH",
+      "photos": [
+        "/media/59c21352-5914-4ff7-8095-0fbe277763d3.webp",
+        "/media/5d78704f-d1b8-4e11-8ece-6eb9455faec2.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-026-one",
+          "size": "Один розмір",
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-027",
+      "title": "Ремінь Elitwear Pelle",
+      "description": "Дуїс ауте іруре долор ін репрехендеріт ін волуптате веліт. Ессе ціллум долоре еу фугіат нулла.\nМатеріал: екошкіра, гумова підошва.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Ремені",
+      "costMinor": 34000,
+      "currency": "UAH",
+      "photos": [
+        "/media/5f10a850-054d-4bf7-89fd-5d9562accd52.webp",
+        "/media/1621b4e0-270e-4e9f-8149-28d5a09f8743.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-027-90",
+          "size": "90",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-027-100",
+          "size": "100",
+          "stock": 2
+        },
+        {
+          "id": "ls-demo-027-110",
+          "size": "110",
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "externalId": "LS-DEMO-028",
+      "title": "Шкарпетки Sedcotto 3 пари",
+      "description": "Ексцептеур сінт оккаекат купідатат нон проідент. Сунт ін кульпа куі офіціа дезерунт молліт.\nМатеріал: бавовна 100%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Шкарпетки",
+      "costMinor": 15000,
+      "currency": "UAH",
+      "photos": [
+        "/media/71e1d223-7dab-4b7f-8435-a2aa78778d0b.webp",
+        "/media/db342b47-1888-4832-8c80-3411fe030c5e.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-028-36-40",
+          "size": "36-40",
+          "stock": 3
+        },
+        {
+          "id": "ls-demo-028-41-45",
+          "size": "41-45",
+          "stock": 0
+        }
+      ]
+    }
+  ]
+}

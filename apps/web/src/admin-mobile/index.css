@@ -1,0 +1,9 @@
+/* Mobile manager UI. The only file main.jsx imports. Fixed order; later tasks edit their own file, never this one.
+   Every rule lives in the phone (max-width 639.98px) or tablet (640px to 1023.98px) range and every selector starts with
+   .admin-shell, so desktop (1024px and up) and the storefront are untouched. tests/frontend/admin-mobile-css.test.js enforces it. */
+@import './base.css';
+@import './catalog.css';
+@import './editor.css';
+@import './suppliers.css';
+@import './orders.css';
+@import './settings.css';

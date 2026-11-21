@@ -1,0 +1,56 @@
+/* campaign / drop band (decision content-drop A), adapted from audit4 .a4-drop. */
+.storefront .campaign-band{background:#33412f;color:#eeefe9;display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);min-height:440px;overflow:hidden;position:relative;max-width:1600px;margin:0 auto}
+.storefront .campaign-copy{padding:64px max(4vw,20px);align-self:center;min-width:0}
+.storefront .campaign-eyebrow{display:flex;align-items:center;gap:8px;font:600 11px/1.7 'DM Sans',sans-serif;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 22px;color:#b9c4ae}
+.storefront .campaign-eyebrow i{width:7px;height:7px;border-radius:50%;background:#d7f16c;display:block}
+.storefront .campaign-band h2{font:600 clamp(36px,5.2vw,76px)/.98 'Oswald','Arial Narrow',sans-serif;letter-spacing:-1.5px;margin:0;text-transform:uppercase;overflow-wrap:anywhere}
+.storefront .campaign-band h2 em{font-style:normal;color:#d7f16c}
+.storefront .campaign-lead{font-size:16px;line-height:1.7;color:#c9d2c0;margin:22px 0 28px;max-width:440px}
+.storefront .campaign-cta{display:inline-flex;align-items:center;gap:18px;min-height:48px;padding:14px 20px;font:700 12px/1.3 'DM Sans',sans-serif;letter-spacing:.5px;text-transform:uppercase;background:#eeefe9;color:#1b201d;text-decoration:none}
+.storefront .campaign-cta:hover{background:#fff}
+.storefront .campaign-cta:focus-visible{outline:3px solid #d7f16c;outline-offset:4px}
+.storefront .campaign-art{position:relative;min-height:300px;min-width:0}
+.storefront .campaign-idx{position:absolute;right:18px;bottom:16px;font:10px 'DM Sans',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#b9c4ae}
+.storefront .campaign-band.is-loading{min-height:440px}
+@supports not (container-type:inline-size){@media(min-width:1100px){.storefront .campaign-band.is-loading{min-height:470px}}}
+.storefront .campaign-band.is-loading .campaign-copy,.storefront .campaign-band.is-loading .campaign-art{min-height:300px}
+@supports not (container-type:inline-size){@media(max-width:650px){
+  .storefront .campaign-idx{display:none}
+  .storefront .campaign-band{grid-template-columns:1fr;min-height:0}
+  .storefront .campaign-copy{padding:38px 20px 8px}
+  .storefront .campaign-art{height:270px;min-height:0}
+  .storefront .campaign-lead{font-size:14px;margin:16px 0 22px}
+  .storefront .campaign-band.is-loading{min-height:0}
+  .storefront .campaign-band.is-loading .campaign-copy{min-height:290px}
+  .storefront .campaign-band.is-loading .campaign-art{min-height:0}
+}}
+@media(prefers-reduced-motion:no-preference){.storefront .campaign-cta{transition:background .2s}}
+
+/* generated wall backdrop (moss wall, lime spray circle); the cut-outs hang inside the circle. */
+.storefront .campaign-wall{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;pointer-events:none}
+.storefront .campaign-band::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#33412f 0%,#33412fe6 34%,#33412f00 62%);pointer-events:none}
+.storefront .campaign-copy,.storefront .campaign-art,.storefront .campaign-idx{position:relative;z-index:2}
+.storefront .campaign-idx{position:absolute}
+@supports not (container-type:inline-size){@media(max-width:650px){
+  .storefront .campaign-wall{object-position:72% center}
+  .storefront .campaign-band::before{background:linear-gradient(180deg,#33412f 0%,#33412fe6 48%,#33412f66 100%)}
+}}
+
+/* the band answers to its own frame width, so a 390 px admin preview inside a 1440 px page renders the
+   mobile band. The @media blocks above sit in @supports not (container-type:inline-size): a fallback only for browsers without container queries (same declarations). */
+@container campaign (min-width:0px){
+  .storefront .campaign-copy{padding:64px max(4cqi,20px)}
+  .storefront .campaign-band h2{font-size:clamp(36px,5.2cqi,76px)}
+}
+@container campaign (min-width:1100px){.storefront .campaign-band.is-loading{min-height:470px}}
+@container campaign (max-width:650px){
+  .storefront .campaign-idx{display:none}
+  .storefront .campaign-band{grid-template-columns:1fr;min-height:0}
+  .storefront .campaign-copy{padding:38px 20px 8px}
+  .storefront .campaign-art{height:270px;min-height:0}
+  .storefront .campaign-lead{font-size:14px;margin:16px 0 22px}
+  .storefront .campaign-band.is-loading{min-height:0}
+  .storefront .campaign-band.is-loading .campaign-copy{min-height:290px}
+  .storefront .campaign-band.is-loading .campaign-art{min-height:0}
+  .storefront .campaign-band::before{background:linear-gradient(180deg,#33412f 0%,#33412fe6 48%,#33412f66 100%)}
+}

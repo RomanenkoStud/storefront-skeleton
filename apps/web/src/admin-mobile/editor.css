@@ -1,0 +1,224 @@
+/* T3 product editor, add product, confirm, cutout, picture fit, price override. Stub from T1: add rules here only.
+   Rules go inside @media (max-width: 639.98px) or @media (min-width: 640px) and (max-width: 1023.98px), every selector starts with
+   .admin-shell, no !important, font sizes in rem, colours from tokens (see base.css and tests/frontend/admin-mobile-css.test.js). */
+
+/* ---------- 1. Phone: product editor sheet ---------- */
+/* The modal is already full-screen (base.css section 4). The editor stack is header > form > editor-layout > (editor-fields: tabs + editor-scroll) + editor-preview
+   (only the publish control is left visible at <=900px) and then the footer. The old max-height calc() on .editor-scroll is replaced by flex sizing so the body
+   scrolls between the fixed header and footer. Existing rules are (0,1,0)-(0,2,1); every selector below is (0,2,0) or more and loads later. */
+@media (max-width: 639.98px) {
+  .admin-shell .editor-modal .modal-header {
+    padding: var(--space-2) var(--space-3);
+  }
+  .admin-shell .editor-modal .modal-header h2 {
+    font-size: 1.125rem;
+  }
+  .admin-shell .editor-modal > form {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .admin-shell .editor-modal .editor-layout {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .admin-shell .editor-modal .editor-fields {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .admin-shell .editor-tabs {
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    padding: 0 var(--space-3);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .admin-shell .editor-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .admin-shell .editor-tabs button {
+    flex: 0 0 auto;
+    min-height: var(--hit);
+    padding: 0 var(--space-3);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+  .admin-shell .editor-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    padding: var(--space-3);
+    overscroll-behavior: contain;
+  }
+  .admin-shell .editor-preview {
+    padding: var(--space-1) var(--space-3);
+  }
+  .admin-shell .editor-preview .publish-control {
+    min-height: var(--hit);
+  }
+  /* Fields, classification panel and variant checkboxes */
+  .admin-shell .editor-scroll .field-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .admin-shell .editor-scroll .classification-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+  .admin-shell .editor-scroll .classification-controls .button {
+    width: 100%;
+  }
+  .admin-shell .editor-scroll .variant-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .admin-shell .editor-scroll .price-override .button {
+    width: 100%;
+  }
+  .admin-shell .editor-scroll .check-row {
+    min-height: var(--hit);
+  }
+  /* Photos: two columns, 44x44 reorder buttons. The source tab shares the same grid with a third (remove) button, so the row wraps. */
+  .admin-shell .photo-editor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+  .admin-shell .photo-editor-item > div:last-child {
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+  .admin-shell .photo-editor-item > div:last-child > span {
+    flex: 1 1 100%;
+    margin-right: 0;
+  }
+  .admin-shell .photo-editor-item .icon-button {
+    width: var(--hit);
+    height: var(--hit);
+    min-width: var(--hit);
+    min-height: var(--hit);
+    padding: 0;
+    font-size: 1.125rem;
+  }
+  /* Footer: save full width, Скасувати and Видалити товар share the first row. The destructive control keeps its own style; the legacy
+     .editor-delete rule (<=650px) is !important, so its margin and font size are left alone and the buttons share the row through flex. */
+  .admin-shell .editor-modal .modal-footer {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3) max(var(--space-2), env(safe-area-inset-bottom));
+  }
+  .admin-shell .editor-modal .modal-footer .save-note {
+    display: none;
+  }
+  .admin-shell .editor-modal .modal-footer .editor-delete,
+  .admin-shell .editor-modal .modal-footer .button.secondary {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+  }
+  .admin-shell .editor-modal .modal-footer .button.primary {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+/* ---------- 2. Phone: add product, confirm, cutout, picture fit, batch cutout ---------- */
+@media (max-width: 639.98px) {
+  /* Add product: the .product-modal rules (<=650px) already stack the footer buttons; the size/stock pair stays side by side,
+     the remove button takes its own row at 44px. */
+  .admin-shell .product-modal .modal-body {
+    padding: var(--space-3);
+  }
+  .admin-shell .product-modal .field-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-shell .size-row > button {
+    justify-self: stretch;
+  }
+  .admin-shell .new-photo-grid {
+    min-width: 0;
+  }
+  /* ConfirmDialog: stays the full-screen sheet from base.css (the shell and catalog specs assert it); the body fills it and the footer sits at the
+     bottom with stacked 44px buttons. */
+  .admin-shell .confirm-modal .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-3) var(--space-3) max(var(--space-3), env(safe-area-inset-bottom));
+  }
+  .admin-shell .confirm-modal .modal-footer .button {
+    width: 100%;
+    font-size: 0.875rem;
+  }
+  /* Cutout and picture fit (rendered inside the editor photo tab) */
+  .admin-shell .image-cutout,
+  .admin-shell .picture-fit,
+  .admin-shell .batch-cutout {
+    padding: var(--space-3);
+  }
+  .admin-shell .cutout-actions > div {
+    gap: var(--space-2);
+  }
+  .admin-shell .cutout-comparison,
+  .admin-shell .picture-fit-compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-shell .cutout-comparison img,
+  .admin-shell .picture-fit-before img {
+    height: auto;
+    max-height: 280px;
+  }
+  .admin-shell .cutout-workspace [role="group"],
+  .admin-shell .picture-fit-backgrounds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .admin-shell .cutout-workspace [role="group"] .button,
+  .admin-shell .picture-fit-backgrounds .button {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .admin-shell .cutout-workspace > .button,
+  .admin-shell .picture-fit-actions .button,
+  .admin-shell .batch-cutout-actions .button {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .admin-shell .picture-fit-nudge {
+    flex-wrap: nowrap;
+  }
+  .admin-shell .picture-fit-nudge-label {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .admin-shell .picture-fit-nudge .button {
+    min-width: var(--hit);
+    padding: 0;
+  }
+  .admin-shell .picture-fit-actions {
+    flex-direction: column;
+  }
+  .admin-shell .batch-cutout-actions {
+    flex-direction: column;
+  }
+}
+
+/* ---------- 3. Tablet: 44px targets only ---------- */
+/* base.css already sizes buttons, selects and inputs. The editor adds a few compound controls with their own padding. */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .admin-shell .editor-tabs button {
+    min-height: var(--hit);
+  }
+  .admin-shell .photo-editor-item .icon-button {
+    min-width: var(--hit);
+    min-height: var(--hit);
+  }
+  .admin-shell .picture-fit-nudge .button {
+    min-width: var(--hit);
+  }
+}

@@ -1,0 +1,11 @@
+/* poster tiles in the product grid (mockup: content-tiles-slot). */
+.storefront .poster-tile{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:22px 22px 20px;min-height:320px;text-decoration:none}
+.storefront .poster-tile.is-lime{background:#d7f16c;color:#1f2a16}
+.storefront .poster-tile.is-moss{background:#33412f;color:#eeefe9}
+.storefront .poster-tile:focus-visible{outline:3px solid currentColor;outline-offset:-8px}
+.storefront .poster-tile .poster-top{position:relative;z-index:2;display:block}
+.storefront .poster-tile .poster-kicker{display:block;font:600 10px/1.6 'DM Sans',sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+.storefront .poster-tile .poster-title{display:block;margin-top:8px;font:600 clamp(26px,3.3vw,50px)/.98 Oswald,sans-serif;letter-spacing:-1px;text-transform:uppercase;overflow-wrap:anywhere}
+.storefront .poster-tile .poster-cut{position:absolute;left:8%;width:84%;bottom:14%;max-height:56%;object-fit:contain;filter:drop-shadow(0 18px 18px #0005);z-index:1;pointer-events:none}
+.storefront .poster-tile .poster-go{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;border-top:1px solid currentColor;padding-top:14px;font:700 11px/1 'DM Sans',sans-serif;letter-spacing:.5px;text-transform:uppercase}
+@media(max-width:650px){.storefront .poster-tile{padding:14px 13px 13px;min-height:260px}.storefront .poster-tile .poster-title{font-size:25px}.storefront .poster-tile .poster-kicker{font-size:8.5px;letter-spacing:1px}.storefront .poster-tile .poster-go{font-size:9.5px;padding-top:10px}}

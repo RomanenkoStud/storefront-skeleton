@@ -1,0 +1,15 @@
+/* (brand slot sizes). Tokens only. Sizes follow lead answer L-6:
+   B1 at least 120px wide (61px high) everywhere; S1 at least 64px wide in the 56px sticky bar. */
+.brand img{display:block;max-width:none;width:auto}
+.brand-full img{width:120px;height:61px}
+.brand-compact img{width:64px;height:35px}
+.brand-mark img{width:48px;height:48px}
+.brand:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:2px}
+.login-page .brand:focus-visible{outline-color:var(--focus-light)}
+.site-footer-logo .brand-full img{width:126px;height:64px}
+.sidebar .brand-mark{margin-bottom:6px}
+/* Photo placeholder: the N1 mark is a pseudo-element background, so image rules (.product-image img, .detail-gallery img,
+   .photo-editor-item img) and the hover scale cannot reach it. Size min(40%,96px); under 120px wide it swaps to the small cut. */
+.photo-placeholder{container-type:inline-size;position:relative}
+.photo-placeholder::before{content:"";display:block;flex:none;width:min(40%,96px);aspect-ratio:1;background:url("/brand/mark-n1.svg") center/contain no-repeat;opacity:.6}
+@container (max-width:120px){.photo-placeholder::before{width:min(70%,40px);background-image:url("/brand/mark-n1-small.svg");opacity:1}}

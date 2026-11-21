@@ -1,0 +1,31 @@
+/* Shadow exception: tokens.css has no shadow/elevation token, so the drop-shadows below keep literal rgb() black. */
+/* campaign band scenes (ADR-0015). Tokens only: no raw hex, no px font sizes.
+   Every box is in percent of .campaign-art. Desktop uses --x..--r, mobile --mx..--mr. */
+.storefront .campaign-frame{container:campaign/inline-size}
+.storefront .campaign-band .campaign-wall{object-position:var(--wall-pos,right center)}
+.storefront .campaign-art .scene-slot{position:absolute;left:calc(var(--x)*1%);top:calc(var(--y)*1%);width:calc(var(--w)*1%);height:calc(var(--h)*1%);z-index:var(--z);transform:rotate(calc(var(--r)*1deg));transform-origin:var(--origin,50% 100%);pointer-events:none}
+.storefront .campaign-art[data-anchor=top]{--origin:50% 0;--fit:50% 0}
+.storefront .campaign-art[data-anchor=bottom]{--origin:50% 100%;--fit:50% 100%}
+.storefront .campaign-art[data-anchor=center]{--origin:50% 50%;--fit:50% 50%}
+.storefront .campaign-art .scene-slot img{display:block;width:100%;height:100%;object-fit:contain;object-position:var(--fit,50% 100%);filter:drop-shadow(0 18px 22px rgb(0 0 0 / .45))}
+.storefront .campaign-band[data-scene=floor] .scene-slot img{filter:drop-shadow(0 8px 10px rgb(0 0 0 / .5))}
+.storefront .campaign-art .scene-hook{position:absolute;left:calc(var(--hx)*1%);top:calc(var(--hy)*1%);width:12px;height:12px;margin:-4px 0 0 -6px;border-radius:50%;background:var(--graphite-900);box-shadow:inset 0 2px 0 var(--graphite-700),0 4px 6px rgb(0 0 0 / .5);z-index:5}
+.storefront .campaign-art .scene-rail{position:absolute;left:calc(var(--px)*1%);top:calc(var(--py)*1%);width:calc(var(--pw)*1%);height:7px;border-radius:4px;background:linear-gradient(var(--moss-300),var(--graphite-700) 45%,var(--graphite-950));box-shadow:0 8px 12px rgb(0 0 0 / .45);z-index:0}
+.storefront .campaign-art .scene-rail::before,.storefront .campaign-art .scene-rail::after{content:"";position:absolute;top:-3px;width:10px;height:22px;border-radius:2px;background:var(--graphite-900)}
+.storefront .campaign-art .scene-rail::before{left:0}
+.storefront .campaign-art .scene-rail::after{right:0}
+/* Mobile: the container query serves the admin phone preview; the media query is the fallback with the same declarations. */
+@container campaign (max-width:650px){
+  .storefront .campaign-band .campaign-wall{object-position:var(--wall-mpos,72% center)}
+  .storefront .campaign-art .scene-slot{left:calc(var(--mx)*1%);top:calc(var(--my)*1%);width:calc(var(--mw)*1%);height:calc(var(--mh)*1%);z-index:var(--mz);transform:rotate(calc(var(--mr)*1deg))}
+  .storefront .campaign-art .scene-slot[data-mobile=off],.storefront .campaign-art .scene-hook[data-mobile=off]{display:none}
+  .storefront .campaign-art .scene-hook{left:calc(var(--mhx)*1%);top:calc(var(--mhy)*1%)}
+  .storefront .campaign-art .scene-rail{left:calc(var(--mpx)*1%);top:calc(var(--mpy)*1%);width:calc(var(--mpw)*1%)}
+}
+@supports not (container-type:inline-size){@media(max-width:650px){
+  .storefront .campaign-band .campaign-wall{object-position:var(--wall-mpos,72% center)}
+  .storefront .campaign-art .scene-slot{left:calc(var(--mx)*1%);top:calc(var(--my)*1%);width:calc(var(--mw)*1%);height:calc(var(--mh)*1%);z-index:var(--mz);transform:rotate(calc(var(--mr)*1deg))}
+  .storefront .campaign-art .scene-slot[data-mobile=off],.storefront .campaign-art .scene-hook[data-mobile=off]{display:none}
+  .storefront .campaign-art .scene-hook{left:calc(var(--mhx)*1%);top:calc(var(--mhy)*1%)}
+  .storefront .campaign-art .scene-rail{left:calc(var(--mpx)*1%);top:calc(var(--mpy)*1%);width:calc(var(--mpw)*1%)}
+}}

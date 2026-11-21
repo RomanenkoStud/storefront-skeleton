@@ -1,0 +1,184 @@
+name: Deploy staging
+# Staging-first release flow. Every push to the `staging` branch (a merged task PR)
+# deploys that exact commit to the staging Worker; a manual dispatch from `staging`
+# redeploys its tip. Nothing else deploys staging. Production (ci.yml) later refuses
+# any promoted PR head that is not contained in the newest successful run of this
+# workflow. This workflow never calls ci.yml (a called workflow would inherit the
+# caller's ref and could satisfy the production deploy condition).
+on:
+  push:
+    branches: [staging]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cloudflare-staging
+  cancel-in-progress: false
+jobs:
+  gate:
+    name: Require the staging branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      sha: ${{ steps.source.outputs.sha }}
+    steps:
+      - name: Deploy only commits on refs/heads/staging
+        id: source
+        env:
+          DISPATCH_SHA: ${{ github.sha }}
+          DISPATCH_REF: ${{ github.ref }}
+        run: |
+          if [ "$DISPATCH_REF" != "refs/heads/staging" ]; then
+            echo "::error::Staging deploys only from the staging branch, not $DISPATCH_REF. Merge the task PR into staging instead."
+            exit 1
+          fi
+          echo "sha=$DISPATCH_SHA" >> "$GITHUB_OUTPUT"
+          echo "Staging gate: branch staging, sha $DISPATCH_SHA" >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    name: Deploy staging Worker
+    needs: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Repository-level STAGING_* values: GitHub Free has no environment secrets for private repositories.
+    # Credentials are bound per step, only where Cloudflare is contacted or inputs are validated.
+    env:
+      CI: 'true'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.gate.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - name: Validate every staging input and write wrangler.staging.json
+        env:
+          STAGING_CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          STAGING_D1_DATABASE_ID: ${{ vars.STAGING_D1_DATABASE_ID }}
+          STAGING_R2_BUCKET: ${{ vars.STAGING_R2_BUCKET }}
+          STAGING_NP_CATALOG_BUCKET: ${{ vars.STAGING_NP_CATALOG_BUCKET }}
+          STAGING_CF_ACCESS_AUD: ${{ vars.STAGING_CF_ACCESS_AUD }}
+          STAGING_GOOGLE_CLIENT_ID: ${{ vars.STAGING_GOOGLE_CLIENT_ID }}
+          STAGING_GOOGLE_STAFF_CLIENT_ID: ${{ vars.STAGING_GOOGLE_STAFF_CLIENT_ID }}
+          STAGING_URL: ${{ vars.STAGING_URL }}
+          STAGING_ADMIN_URL: ${{ vars.STAGING_ADMIN_URL }}
+          CF_ACCESS_TEAM_NAME: ${{ vars.CF_ACCESS_TEAM_NAME }}
+          # Non-secret production values, read only to prove staging differs from production.
+          CLOUDFLARE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
+          CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+          NP_CATALOG_BUCKET: ${{ vars.NP_CATALOG_BUCKET }}
+          CF_ACCESS_AUD: ${{ vars.CF_ACCESS_AUD }}
+        run: node tools/cloudflare-config.mjs --staging
+      - name: Validate staging bundle locally
+        run: npx --no-install wrangler deploy --dry-run --config wrangler.staging.json
+      - name: Verify the staging D1 name resolves to STAGING_D1_DATABASE_ID
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          STAGING_D1_DATABASE_ID: ${{ vars.STAGING_D1_DATABASE_ID }}
+        run: |
+          node --input-type=module <<'JS'
+          import { execFileSync } from 'node:child_process';
+          const name = 'lorem-store-staging';
+          const list = JSON.parse(execFileSync('npx', ['--no-install', 'wrangler', 'd1', 'list', '--json', '--config', 'wrangler.staging.json'], { encoding: 'utf8', env: process.env }));
+          const matches = list.filter(db => db.name === name);
+          if (matches.length !== 1) throw new Error(`Expected exactly one D1 database named ${name}, found ${matches.length}.`);
+          if (String(matches[0].uuid).toLowerCase() !== process.env.STAGING_D1_DATABASE_ID.toLowerCase()) {
+            throw new Error('STAGING_D1_DATABASE_ID does not match the UUID of the staging D1 database.');
+          }
+          console.log('Staging D1 name and UUID verified.');
+          JS
+      - name: Verify the staging R2 bucket exists
+        if: ${{ vars.STAGING_R2_BUCKET != '' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --no-install wrangler r2 bucket info lorem-store-media-staging --config wrangler.staging.json
+      - name: Check staging migration history against this ref
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          node --input-type=module <<'JS'
+          import { execFileSync } from 'node:child_process';
+          import { readdirSync } from 'node:fs';
+          let output;
+          try {
+            output = execFileSync('npx', ['--no-install', 'wrangler', 'd1', 'execute', 'DB', '--remote', '--config', 'wrangler.staging.json', '--json', '--command', 'SELECT name FROM d1_migrations'], { encoding: 'utf8', env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+          } catch (error) {
+            if (/no such table: d1_migrations/i.test(`${error.stdout}${error.stderr}`)) { console.log('No migration history yet (first deploy).'); process.exit(0); }
+            throw new Error('Unable to read staging migration history.');
+          }
+          const applied = JSON.parse(output).flatMap(entry => entry.results ?? []).map(row => row.name);
+          const known = new Set(readdirSync('migrations'));
+          const unknown = applied.filter(name => !known.has(name));
+          if (unknown.length) {
+            throw new Error(`Staging D1 has migrations missing from this ref: ${unknown.join(', ')}. Ask the lead to reset the staging database.`);
+          }
+          console.log(`Staging migration history is a subset of this ref (${applied.length} applied).`);
+          JS
+      - name: Apply staging migrations
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --no-install wrangler d1 migrations apply DB --remote --config wrangler.staging.json
+      - name: Deploy tested code, assets and staging secrets together
+        env:
+          STAGING_CLOUDFLARE_API_TOKEN: ${{ secrets.STAGING_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          STAGING_D1_DATABASE_ID: ${{ vars.STAGING_D1_DATABASE_ID }}
+          STAGING_R2_BUCKET: ${{ vars.STAGING_R2_BUCKET }}
+          STAGING_NP_CATALOG_BUCKET: ${{ vars.STAGING_NP_CATALOG_BUCKET }}
+          STAGING_CF_ACCESS_AUD: ${{ vars.STAGING_CF_ACCESS_AUD }}
+          STAGING_GOOGLE_CLIENT_ID: ${{ vars.STAGING_GOOGLE_CLIENT_ID }}
+          STAGING_GOOGLE_STAFF_CLIENT_ID: ${{ vars.STAGING_GOOGLE_STAFF_CLIENT_ID }}
+          STAGING_URL: ${{ vars.STAGING_URL }}
+          STAGING_ADMIN_URL: ${{ vars.STAGING_ADMIN_URL }}
+          CF_ACCESS_TEAM_NAME: ${{ vars.CF_ACCESS_TEAM_NAME }}
+          # Non-secret production values, read only to prove staging differs from production.
+          CLOUDFLARE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
+          CLOUDFLARE_R2_BUCKET: ${{ vars.CLOUDFLARE_R2_BUCKET }}
+          NP_CATALOG_BUCKET: ${{ vars.NP_CATALOG_BUCKET }}
+          CF_ACCESS_AUD: ${{ vars.CF_ACCESS_AUD }}
+          STAGING_GOOGLE_CLIENT_SECRET: ${{ secrets.STAGING_GOOGLE_CLIENT_SECRET }}
+          STAGING_CUSTOMER_AUTH_HMAC_KEY: ${{ secrets.STAGING_CUSTOMER_AUTH_HMAC_KEY }}
+          STAGING_GOOGLE_STAFF_CLIENT_SECRET: ${{ secrets.STAGING_GOOGLE_STAFF_CLIENT_SECRET }}
+          STAGING_STAFF_AUTH_HMAC_KEY: ${{ secrets.STAGING_STAFF_AUTH_HMAC_KEY }}
+          # Optional read-only Account Analytics token for the cabinet infrastructure page.
+          STAGING_CF_ANALYTICS_API_TOKEN: ${{ secrets.STAGING_CF_ANALYTICS_API_TOKEN }}
+        run: node tools/cloudflare-secrets.mjs --staging-deploy
+      - name: Access gate smoke checks
+        env:
+          STAGING_URL: ${{ vars.STAGING_URL }}
+          STAGING_ADMIN_URL: ${{ vars.STAGING_ADMIN_URL }}
+          CF_ACCESS_TEAM_NAME: ${{ vars.CF_ACCESS_TEAM_NAME }}
+        run: |
+          node --input-type=module <<'JS'
+          const team = process.env.CF_ACCESS_TEAM_NAME;
+          const targets = [['STAGING_URL', 'https://staging.example.com'], ['STAGING_ADMIN_URL', 'https://staging.example.com']];
+          for (const [key, expected] of targets) {
+            const base = process.env[key];
+            if (!base) { console.log(`Smoke check skipped: ${key} is not set.`); continue; }
+            if (base !== expected) throw new Error(`${key} must be exactly ${expected}.`);
+            const response = await fetch(new URL(key === 'STAGING_ADMIN_URL' ? '/admin' : '/', base), { redirect: 'manual', signal: AbortSignal.timeout(20000) });
+            const location = response.headers.get('location') || '';
+            if (response.status >= 200 && response.status < 300) throw new Error(`${key} answered ${response.status} without Access: host is exposed.`);
+            if (![302, 303].includes(response.status) || !location.startsWith(`https://${team}.cloudflareaccess.com/`)) {
+              throw new Error(`${key} did not redirect to the Access login (HTTP ${response.status}).`);
+            }
+            console.log(`${key} is gated by Cloudflare Access.`);
+          }
+          JS
+      - name: Record deployed commit
+        env:
+          DEPLOYED_SHA: ${{ needs.gate.outputs.sha }}
+          DEPLOYED_REF: ${{ github.ref_name }}
+        run: echo "Deployed commit $DEPLOYED_SHA (ref $DEPLOYED_REF) to Cloudflare staging." >> "$GITHUB_STEP_SUMMARY"

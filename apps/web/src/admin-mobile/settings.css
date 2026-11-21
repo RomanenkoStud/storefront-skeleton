@@ -1,0 +1,246 @@
+/* T6 team, audit, storefront settings, recognition and categories. Stub from T1: add rules here only.
+   Rules go inside @media (max-width: 639.98px) or @media (min-width: 640px) and (max-width: 1023.98px), every selector starts with
+   .admin-shell, no !important, font sizes in rem, colours from tokens (see base.css and tests/frontend/admin-mobile-css.test.js). */
+
+/* ---------- Team (staff-cards): DOM order is who, role, status, sessions, actions; `order` gives the card order of the design ---------- */
+/* name, email, invitation expiry, status, sessions, role select, rename form, then the action grid. The first cell uses display: contents so
+   its children (name, notes, rename form) interleave with the other cells inside the card grid. */
+@media (max-width: 639.98px) {
+  .admin-shell .staff-panel table.m-cards.staff-cards tr,
+  .admin-shell .staff-panel table.m-cards.audit-cards tr {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
+    row-gap: var(--space-2);
+  }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who {
+    display: contents;
+  }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > * {
+    grid-column: 1 / -1;
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > strong { order: 1; font-size: 1rem; }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > small:nth-of-type(1) { order: 2; }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > small:nth-of-type(2) { order: 3; }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-status { order: 4; }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-sessions { order: 5; }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-role { order: 6; }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > form { order: 7; display: grid; gap: var(--space-2); }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-actions { order: 8; }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-role select,
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > form input,
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > form button {
+    width: 100%;
+    max-width: none;
+  }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-who > form label {
+    display: grid;
+    gap: var(--space-1);
+  }
+  .admin-shell .staff-panel table.m-cards.staff-cards td.staff-actions {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .admin-shell .staff-panel .staff-cards .row-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+  .admin-shell .staff-panel .staff-cards .row-actions > button {
+    min-width: 0;
+    white-space: normal;
+  }
+  .admin-shell .staff-panel .staff-cards .row-actions > button:last-child {
+    grid-column: 1 / -1;
+    margin-top: var(--space-2);
+  }
+  .admin-shell .staff-panel .staff-cards .staff-actions > small {
+    display: block;
+  }
+}
+
+/* ---------- Audit (audit-cards): action, time, actor + role, object, then the closed details ---------- */
+@media (max-width: 639.98px) {
+  .admin-shell .staff-panel table.m-cards.audit-cards tr {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--space-3);
+  }
+  .admin-shell .staff-panel table.m-cards.audit-cards td { grid-column: 1 / -1; }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-action { order: 1; font-weight: 700; }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-time { order: 2; }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-actor { order: 3; grid-column: 1; }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-role { order: 3; grid-column: 2; color: var(--plum); }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-object { order: 4; }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-details { order: 5; }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-details summary {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .admin-shell .staff-panel table.m-cards.audit-cards td.audit-details pre {
+    margin: var(--space-2) 0 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ---------- Storefront settings: ticker rows, radio/checkbox rows, single column ---------- */
+@media (max-width: 639.98px) {
+  .admin-shell .storefront-settings .ticker-items li {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+  .admin-shell .storefront-settings .ticker-items li > input {
+    grid-column: 1 / -1;
+  }
+  .admin-shell .storefront-settings .ticker-items li > button {
+    min-width: 0;
+    padding-left: var(--space-1);
+    padding-right: var(--space-1);
+  }
+  .admin-shell .storefront-settings .storefront-excluded-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .admin-shell .storefront-settings label.storefront-mode {
+    align-items: flex-start;
+    padding: var(--space-2) 0;
+  }
+  .admin-shell .storefront-settings .field input,
+  .admin-shell .storefront-settings .field select {
+    width: 100%;
+    max-width: none;
+  }
+  .admin-shell .storefront-settings form button.button.primary {
+    width: 100%;
+  }
+}
+
+/* ---------- Recognition and categories: preview tables as cards, 44px controls ---------- */
+@media (max-width: 639.98px) {
+  .admin-shell .recognition-impact table.m-cards.recognition-cards tr,
+  .admin-shell .recognition-history table.m-cards.recognition-cards tr,
+  .admin-shell .recognition-preview-panel table.m-cards.recognition-cards tr {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
+    row-gap: var(--space-1);
+  }
+  .admin-shell .recognition-impact table.m-cards.recognition-cards td,
+  .admin-shell .recognition-impact table.m-cards.recognition-cards td:first-child,
+  .admin-shell .recognition-history table.m-cards.recognition-cards td,
+  .admin-shell .recognition-preview-panel table.m-cards.recognition-cards td {
+    min-width: 0;
+    white-space: normal;
+  }
+  .admin-shell table.m-cards.recognition-cards td:first-child {
+    font-weight: 700;
+  }
+  .admin-shell table.m-cards.recognition-cards td summary {
+    display: flex;
+    align-items: center;
+  }
+  .admin-shell .recognition-match-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- Storefront settings, staging markup (scene picker, preview, picture library; absent on main so these rules are inert there) ---------- */
+/* The file input is a visually hidden control opened by the "+ Додати" tile button (opacity 0, tabindex -1). Pin it so no touch-base or
+   width rule can turn it into a stretched 22px strip. */
+@media (max-width: 639.98px), (min-width: 640px) and (max-width: 1023.98px) {
+  .admin-shell .storefront-settings .picture-upload input.picture-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    min-height: 0;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+@media (max-width: 639.98px) {
+  .admin-shell .storefront-settings .scene-cards {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+  .admin-shell .storefront-settings label.scene-card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: var(--hit);
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+  .admin-shell .storefront-settings label.scene-card > :not(input) {
+    min-width: 0;
+  }
+  .admin-shell .storefront-settings .scene-preview-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-shell .storefront-settings .scene-preview-head .field {
+    min-width: 0;
+    width: 100%;
+  }
+  .admin-shell .storefront-settings .scene-preview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-shell .storefront-settings .scene-preview-frame,
+  .admin-shell .storefront-settings .scene-preview-outer {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .admin-shell .storefront-settings .picture-category {
+    max-width: none;
+  }
+  .admin-shell .storefront-settings .picture-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+  .admin-shell .storefront-settings .picture-pending {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+  .admin-shell .storefront-settings .picture-grid .picture-tile,
+  .admin-shell .storefront-settings .picture-pending .picture-tile {
+    width: auto;
+    min-width: 0;
+  }
+  .admin-shell .storefront-settings .picture-tile-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-1);
+  }
+  .admin-shell .storefront-settings .picture-tile-actions > button {
+    min-width: 0;
+    padding-left: var(--space-1);
+    padding-right: var(--space-1);
+    white-space: normal;
+  }
+  .admin-shell .storefront-settings .picture-tile-actions > button:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .admin-shell .storefront-settings .picture-add button {
+    width: 100%;
+    min-height: var(--hit);
+  }
+  .admin-shell .storefront-settings .picture-progress {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-shell .storefront-settings .picture-progress progress {
+    width: 100%;
+  }
+  .admin-shell .storefront-settings .picture-pending button.button.primary,
+  .admin-shell .storefront-settings .picture-pending button.button.secondary {
+    width: 100%;
+  }
+}

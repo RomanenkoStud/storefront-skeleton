@@ -1,0 +1,60 @@
+/* H4 fresh-drop hero, the right column of .hero (ADR-0014). Tokens only (npm run check).
+   The legacy .hero-art / .jump-poster rules in streetwear.css are dead and stay. The outer .hero-drop box is the same
+   in the skeleton, tiles and empty-note states: its size comes from the hero grid (and fixed heights on narrow screens),
+   never from image or text size. */
+.storefront .hero-drop {
+  --drop-head-h: var(--hit);
+  --drop-tile-h: 260px;
+  box-sizing: border-box; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--graphite-900); color: var(--cream-200);
+}
+.storefront .drop-head { flex: none; height: var(--drop-head-h); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); overflow: hidden; }
+.storefront .drop-head h2 { margin: 0; display: flex; align-items: center; gap: var(--space-2); font: 700 var(--text-xs)/1 var(--font-text); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--cream-200); white-space: nowrap; }
+.storefront .drop-dot { width: var(--space-2); height: var(--space-2); border-radius: var(--radius-pill); background: var(--lime); }
+.storefront .drop-all { font-size: var(--text-2xs); font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--cream-200); text-decoration: none; white-space: nowrap; padding-block: var(--space-3); }
+.storefront .drop-all:hover { color: var(--lime); }
+.storefront .drop-all:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+.storefront .drop-grid { flex: 1; min-height: 0; display: grid; gap: var(--space-3); grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+.storefront .drop-tile { position: relative; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; background: var(--paper-0); color: var(--ink-900); text-decoration: none; border-radius: var(--radius-0); }
+.storefront .drop-tile-lead { grid-row: 1 / span 2; }
+.storefront .drop-media { position: relative; flex: 1; min-height: 0; }
+.storefront .drop-media img { position: absolute; inset: var(--space-3); width: calc(100% - var(--space-5)); height: calc(100% - var(--space-5)); object-fit: contain; }
+.storefront .drop-caption { flex: none; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand brand" "title price"; align-items: baseline; gap: var(--space-1) var(--space-3); padding: 0 var(--space-4) var(--space-4); }
+.storefront .drop-brand { grid-area: brand; font-size: var(--text-2xs); font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--moss-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.storefront .drop-title { grid-area: title; font-size: var(--text-sm); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.storefront .drop-price { grid-area: price; font-size: var(--text-sm); font-weight: 700; white-space: nowrap; }
+.storefront .drop-tile:hover .drop-title { text-decoration: underline; }
+.storefront .drop-tile:focus-visible { outline: 2px solid var(--graphite-900); outline-offset: -5px; box-shadow: 0 0 0 2px var(--lime); }
+
+.storefront .drop-skeleton, .storefront .drop-skeleton-line { display: block; background: var(--graphite-800); }
+.storefront .drop-skeleton-line { width: 40%; height: var(--space-3); }
+@media (prefers-reduced-motion: no-preference) {
+  .storefront .drop-skeleton, .storefront .drop-skeleton-line { animation: drop-pulse 1.4s ease-in-out infinite; }
+  @keyframes drop-pulse { 50% { opacity: .55; } }
+}
+
+.storefront .hero-drop-empty { justify-content: center; align-items: flex-start; gap: var(--space-3); }
+.storefront .hero-drop-empty p { margin: 0; font-size: var(--text-lg); color: var(--cream-200); }
+
+/* 900 px and below: the drop stacks under the copy (tiles would be under 200 px wide beside it), three equal tiles. */
+@media (max-width: 900px) {
+  .storefront .hero { grid-template-columns: 1fr; min-height: 0; }
+  .storefront .hero-drop { --drop-tile-h: 300px; padding: var(--space-4) var(--gutter); height: calc(var(--space-4) * 2 + var(--drop-head-h) + var(--space-3) + var(--drop-tile-h)); }
+  .storefront .drop-grid { flex: none; height: var(--drop-tile-h); grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .storefront .drop-tile-lead { grid-row: auto; }
+}
+/* 651 to 900 px: the copy is full width now, so the split layout's side padding and negative h1 margin go. */
+@media (min-width: 651px) and (max-width: 900px) {
+  .storefront .hero-copy { padding: var(--space-6) var(--gutter) var(--space-5); }
+  .storefront .hero h1 { margin-right: 0; }
+}
+/* 650 px and below: a horizontal scroll-snap row of three tiles, each 44% wide. */
+@media (max-width: 650px) {
+  .storefront .hero-drop { --drop-tile-h: 260px; }
+  .storefront .drop-grid { display: flex; gap: var(--space-3); overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .storefront .drop-tile, .storefront .drop-tile-lead { flex: 0 0 44%; scroll-snap-align: start; }
+  .storefront .drop-caption { grid-template-columns: minmax(0, 1fr); grid-template-areas: "brand" "title" "price"; padding: 0 var(--space-3) var(--space-3); }
+}

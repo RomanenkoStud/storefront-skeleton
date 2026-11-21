@@ -1,0 +1,507 @@
+/* Mobile manager UI foundation (T1): touch/form base, phone shell, card-list and action-bar primitives, modal sheet.
+   Design: docs/design/mobile-admin.md sections 3-4.
+
+   Ranges: phone = max-width 639.98px; tablet = 640px to 1023.98px (today's layout plus 44px targets); desktop (1024px and up) is untouched.
+   Rules:  every rule sits inside one of those ranges, every selector starts with .admin-shell, no !important (all enforced by
+           tests/frontend/admin-mobile-css.test.js). Colours come from tokens or the .admin-shell palette (--ink, --plum, --line), sizes from
+           --hit and --space-*, font sizes are rem (the root font size is the browser default, so 1rem is 16px and stops iOS focus zoom).
+   Cascade: this file loads after styles.css and streetwear.css, so equal specificity wins. Several existing admin rules are MORE specific
+            than a plain .admin-shell button, so the known ones are repeated below in their own compound form (.modal-footer .button,
+            .button.small, .is-recognition ..., .recognition-workspace ...). A later task that meets a rule with higher specificity than
+            (0,2,0) must repeat that compound selector after .admin-shell instead of adding !important.
+   JSX:    the MobileActionBar, FilterDisclosure and table.m-cards primitives are styled ONLY in the phone range. Render them only when
+           useMediaQuery(PHONE) is true, so the desktop DOM does not change. No CSS is imported from components (bundle order). */
+
+/* ---------- 1. Touch and form base: phone and tablet ---------- */
+@media (max-width: 639.98px), (min-width: 640px) and (max-width: 1023.98px) {
+  .admin-shell button,
+  .admin-shell .button,
+  .admin-shell .button.small,
+  .admin-shell .text-button,
+  .admin-shell .icon-button,
+  .admin-shell select,
+  .admin-shell input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]),
+  .admin-shell summary,
+  .admin-shell .modal-footer .button,
+  .admin-shell .dup-tabs [role="tab"],
+  .admin-shell .field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  .admin-shell .field select,
+  .admin-shell .recognition-workspace .field input:not([type="checkbox"]):not([type="radio"]),
+  .admin-shell .recognition-workspace .field select,
+  .admin-shell .recognition-alias-row > .text-button,
+  .admin-shell .recognition-save-bar > .button,
+  .admin-shell .is-recognition .recognition-tabs > button,
+  .admin-shell .is-recognition .recognition-version-bar select,
+  .admin-shell .is-recognition .recognition-toolbar > .button,
+  .admin-shell .admin-main .section-heading > .button,
+  .admin-shell .admin-main.is-recognition > .section-heading > .button {
+    min-height: var(--hit);
+  }
+  .admin-shell .icon-button,
+  .admin-shell .recognition-alias-row > .text-button {
+    min-width: var(--hit);
+  }
+  /* Checkboxes and radios: a 20px visible box inside a 44px hit area (the wrapping label, or the .m-check wrapper). */
+  .admin-shell input[type="checkbox"],
+  .admin-shell input[type="radio"],
+  .admin-shell .catalog-table td:first-child input,
+  .admin-shell .catalog-table th:first-child input,
+  .admin-shell .dup-check input {
+    width: 20px;
+    height: 20px;
+    min-height: 0;
+    flex-shrink: 0;
+  }
+  .admin-shell .m-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--hit);
+    min-height: var(--hit);
+  }
+}
+
+/* ---------- 2. Phone: form layout ---------- */
+@media (max-width: 639.98px) {
+  /* 44px hit area through the wrapping label (phone only: tablet keeps today's inline label layout) */
+  .admin-shell label:has(> input[type="checkbox"]),
+  .admin-shell label:has(> input[type="radio"]) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--hit);
+  }
+  .admin-shell input:not([type="checkbox"]):not([type="radio"]),
+  .admin-shell select,
+  .admin-shell textarea,
+  .admin-shell .field input,
+  .admin-shell .field select,
+  .admin-shell .field textarea,
+  .admin-shell .is-recognition .recognition-toolbar > input,
+  .admin-shell .is-recognition .recognition-toolbar > select,
+  .admin-shell .is-recognition .recognition-version-bar select,
+  .admin-shell .recognition-workspace .field input,
+  .admin-shell .recognition-workspace .field select {
+    font-size: 1rem;
+  }
+  .admin-shell .field-row,
+  .admin-shell .recognition-match-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-shell .connection-form,
+  .admin-shell .manual-form-row,
+  .admin-shell .orders-panel .orders-lookup,
+  .admin-shell .orders-panel .orders-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-shell .m-stack-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+  .admin-shell .m-stack-actions .button,
+  .admin-shell .m-stack-actions button {
+    width: 100%;
+  }
+}
+
+/* ---------- 3. Phone: shell ---------- */
+/* DOM order is sidebar, then admin-body (top bar, main, footer). The desktop DOM must not change, so on phone the shell becomes a column,
+   .admin-body disappears from layout (display: contents) and `order` puts the top bar first, the nav strip second, then the page. */
+@media (max-width: 639.98px) {
+  .admin-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+  .admin-shell .admin-body {
+    display: contents;
+  }
+  .admin-shell .admin-topbar {
+    order: 0;
+    position: sticky;
+    top: 0;
+    z-index: 50; /* = --z-sticky; tests/backend/design-tokens.test.js does not yet allow it outside tokens.css */
+    height: auto;
+    min-height: var(--hit);
+    gap: var(--space-2);
+    padding: 0 var(--space-3);
+    font-size: 0.75rem;
+  }
+  .admin-shell .admin-topbar > span {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .admin-shell .admin-topbar > a {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    min-height: var(--hit);
+    white-space: nowrap;
+  }
+  .admin-shell .admin-topbar .topbar-logout {
+    flex: none;
+    padding: 0 var(--space-2);
+    font-size: 0.75rem;
+  }
+  /* Nav: brand mark, then one horizontally scrollable 44px strip of the existing nav buttons. Staff revoke-all wraps to a row below. */
+  .admin-shell .sidebar {
+    order: 1;
+    position: static;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+  }
+  .admin-shell .sidebar .brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    min-width: var(--hit);
+    min-height: var(--hit);
+    margin: 0;
+  }
+  .admin-shell .sidebar .brand img {
+    width: auto;
+    height: var(--space-5);
+  }
+  .admin-shell .sidebar .workspace-label {
+    display: none;
+  }
+  .admin-shell .sidebar nav {
+    display: flex;
+    flex: 1 1 0;
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    min-width: 0;
+    height: var(--hit);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .admin-shell .sidebar nav::-webkit-scrollbar {
+    display: none;
+  }
+  .admin-shell .sidebar nav button {
+    flex: 0 0 auto;
+    justify-content: center;
+    height: var(--hit);
+    padding: 0 var(--space-3);
+    border-radius: 0;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    scroll-snap-align: center;
+  }
+  .admin-shell .sidebar nav button span {
+    font-size: 0.75rem;
+  }
+  /* Slogan, store link and the second logout stay hidden (the top bar has both links). Only the staff revoke-all button is shown again:
+     it is the sidebar-bottom button that has a later button sibling (the non-staff layout has a single button). No DOM change. */
+  .admin-shell .sidebar .sidebar-bottom {
+    display: contents;
+  }
+  .admin-shell .sidebar .sidebar-bottom > p,
+  .admin-shell .sidebar .sidebar-bottom > a,
+  .admin-shell .sidebar .sidebar-bottom > button {
+    display: none;
+  }
+  .admin-shell .sidebar .sidebar-bottom > button:first-of-type:not(:last-of-type) {
+    display: block;
+    flex: 1 1 100%;
+    padding: 0 var(--space-3);
+    text-align: left;
+    font-size: 0.75rem;
+  }
+  /* Page */
+  .admin-shell .admin-main {
+    order: 2;
+    padding: var(--space-4) var(--space-3) var(--space-6);
+  }
+  .admin-shell .admin-main:has(.m-actionbar) {
+    padding-bottom: calc(var(--space-6) + var(--hit));
+  }
+  .admin-shell .admin-footer {
+    order: 3;
+    display: none;
+  }
+  .admin-shell .admin-main .section-heading,
+  .admin-shell .admin-main.is-recognition > .section-heading {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .admin-shell .admin-main .section-heading .eyebrow,
+  .admin-shell .admin-main .section-heading .section-subtitle {
+    display: none;
+  }
+  .admin-shell .admin-main .section-heading > div {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .admin-shell .admin-main .section-heading h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.15;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .admin-shell .admin-main .section-heading > .button,
+  .admin-shell .admin-main.is-recognition > .section-heading > .button {
+    flex: none;
+    margin: 0;
+    padding: 0 var(--space-3);
+    font-size: 0.75rem;
+  }
+  .admin-shell .notice {
+    font-size: 0.8125rem;
+  }
+}
+
+/* ---------- 4. Phone: modal sheet ---------- */
+/* Every admin modal renders inside .admin-shell. The backdrop must sit above the sticky top bar and action bar (--z-sticky). */
+@media (max-width: 639.98px) {
+  .admin-shell .modal-backdrop {
+    z-index: 100; /* = --z-overlay, above the sticky bars (see the z-sticky note above) */
+    align-items: stretch;
+    padding: 0;
+  }
+  .admin-shell .modal {
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+  .admin-shell .modal > form,
+  .admin-shell .modal .modal-body {
+    flex: 1 1 auto;
+  }
+  .admin-shell .modal-footer {
+    flex-wrap: wrap;
+  }
+  .admin-shell .modal-footer .button {
+    font-size: 0.8125rem;
+  }
+}
+
+/* ---------- 5. Phone: card list primitive (table.m-cards) ---------- */
+/* Markup contract (the screen task provides it): <table class="m-cards" role="table"> with role="rowgroup" on thead/tbody, role="row" on tr,
+   role="columnheader" on th and role="cell" on td (WebKit drops table semantics when display changes). Each td carries one role class:
+   m-select m-thumb m-title m-sub m-price m-status m-meta m-actions. m-meta holds labelled facts: <span data-label="Постачальник">..</span>.
+   Interactive header cells (the catalog select-all) get display: none through .m-cards-hide and are replaced by a phone-only control.
+   The whole card is NOT a tap target: actions are explicit 44px buttons in m-actions. */
+@media (max-width: 639.98px) {
+  .admin-shell table.m-cards,
+  .admin-shell table.m-cards tbody {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+  }
+  .admin-shell table.m-cards thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .admin-shell table.m-cards thead .m-cards-hide {
+    display: none;
+  }
+  .admin-shell table.m-cards tr {
+    display: grid;
+    grid-template-columns: var(--hit) 56px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "select thumb title title"
+      "select thumb sub sub"
+      "price price status status"
+      "meta meta meta meta"
+      "actions actions actions actions";
+    column-gap: var(--space-2);
+    align-items: start;
+    margin: 0 0 var(--space-3);
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--space-2);
+    background: var(--paper-0);
+  }
+  .admin-shell table.m-cards td {
+    display: block;
+    grid-column: 1 / -1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    overflow-wrap: anywhere;
+  }
+  .admin-shell table.m-cards td.m-select {
+    grid-area: select;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--hit);
+  }
+  .admin-shell table.m-cards td.m-thumb {
+    grid-area: thumb;
+    width: 56px;
+    height: 72px;
+  }
+  .admin-shell table.m-cards td.m-thumb img,
+  .admin-shell table.m-cards td.m-thumb .photo-placeholder {
+    display: block;
+    width: 56px;
+    height: 72px;
+    object-fit: cover;
+  }
+  .admin-shell table.m-cards td.m-title {
+    grid-area: title;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .admin-shell table.m-cards td.m-sub {
+    grid-area: sub;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    font-size: 0.8125rem;
+  }
+  .admin-shell table.m-cards td.m-price {
+    grid-area: price;
+    margin-top: var(--space-2);
+    font-weight: 700;
+  }
+  .admin-shell table.m-cards td.m-status {
+    grid-area: status;
+    justify-self: end;
+    margin-top: var(--space-2);
+  }
+  .admin-shell table.m-cards td.m-meta {
+    grid-area: meta;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    margin-top: var(--space-2);
+    font-size: 0.8125rem;
+  }
+  .admin-shell table.m-cards td[data-label]::before,
+  .admin-shell table.m-cards td.m-meta > [data-label]::before {
+    content: attr(data-label) ": ";
+    color: var(--plum);
+    font-weight: 600;
+  }
+  .admin-shell table.m-cards td.m-actions {
+    grid-area: actions;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .admin-shell table.m-cards td.m-actions > button,
+  .admin-shell table.m-cards td.m-actions > .button,
+  .admin-shell table.m-cards td.m-actions > a {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* ---------- 6. Phone: sticky bottom action bar (.m-actionbar) ---------- */
+/* Status line (count) above a row of up to `inline` actions + a "Ще дії" toggle (equal-width buttons); the overflow list opens above the row inside the same bar.
+   Not a dialog: aria-expanded / aria-controls on the toggle, no role="dialog". */
+@media (max-width: 639.98px) {
+  .admin-shell .m-actionbar {
+    position: sticky;
+    bottom: 0;
+    z-index: 50; /* = --z-sticky; tests/backend/design-tokens.test.js does not yet allow it outside tokens.css */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3) max(var(--space-2), env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line);
+    background: var(--paper-0);
+  }
+  .admin-shell .m-actionbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .admin-shell .m-actionbar-status {
+    flex: 1 1 100%;
+    min-width: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .admin-shell .m-actionbar-row > .button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+    font-size: 0.8125rem;
+    white-space: normal;
+  }
+  .admin-shell .m-actionbar-more {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .admin-shell .m-actionbar-more[hidden] {
+    display: none;
+  }
+  .admin-shell .m-actionbar-more > .button {
+    width: 100%;
+  }
+}
+
+/* ---------- 7. Phone: filter disclosure (FilterDisclosure) ---------- */
+/* An inline panel, not an overlay: no role="dialog" (useDialogFocus uses the first [role="dialog"] in the document). */
+@media (max-width: 639.98px) {
+  .admin-shell .m-filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .admin-shell .m-filters-toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .admin-shell .m-filters-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .admin-shell .m-filters-panel[hidden] {
+    display: none;
+  }
+  .admin-shell .m-filters-panel select,
+  .admin-shell .m-filters-panel input:not([type="checkbox"]):not([type="radio"]),
+  .admin-shell .m-filters-panel .button {
+    width: 100%;
+    max-width: none;
+  }
+}

@@ -1,0 +1,7 @@
+/* Page ending refinement */
+.storefront .catalog-more{display:flex;flex-direction:column;align-items:center;gap:12px;padding:44px 0 12px}
+.storefront .catalog-more-count{margin:0;font:11px/1.5 'DM Sans',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#6b7565}
+.storefront .catalog-more-track{width:260px;max-width:100%;height:2px;background:#d9ddd2;position:relative}
+.storefront .catalog-more-track i{position:absolute;inset:0 auto 0 0;background:#242d24}
+.storefront .catalog-more .button.secondary{margin:0;min-width:260px;max-width:100%;justify-content:center}
+.storefront .catalog-more-live{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

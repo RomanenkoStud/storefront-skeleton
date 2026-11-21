@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SYNTHETIC fixture (catalog-afq.3). Structure mirrors an EasyDrop prom-export feed; every name, ID, price, code and URL is invented (the category labels 'Testbrand | Runner One' and 'Fakewear | Hoodie' are test-asserted placeholders). Image URLs use the supplier host because the parser accepts only that host; the files do not exist. Not real supplier data. -->
+<shop><catalog><category id="900000000001" >Testbrand | Runner One</category>
+<category id="900000000002" >Ipsum | Winter Boot</category>
+<category id="900000000003" >Fakewear | Hoodie </category>
+<category id="900000000004" >Dolor | Кепка</category>
+<category id="900000000005" >Consectetur | Split Price</category>
+</catalog><items>
+<item id="70010010001" selling_type="r" group_id="10001" available="false"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700100</barcode>
+<vendorCode>Z001-700100</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">36</param>
+<available>false</available>
+</item>
+<item id="70010110001" selling_type="r" group_id="10001" available="true"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700101</barcode>
+<vendorCode>Z001-700101</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">37</param>
+<available>true</available>
+<quantity_in_stock>2</quantity_in_stock></item>
+<item id="70010210001" selling_type="r" group_id="10001" available="true"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700102</barcode>
+<vendorCode>Z001-700102</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">38</param>
+<available>true</available>
+<quantity_in_stock>5</quantity_in_stock></item>
+<item id="70010310001" selling_type="r" group_id="10001" available="true"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700103</barcode>
+<vendorCode>Z001-700103</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">39</param>
+<available>true</available>
+<quantity_in_stock>1</quantity_in_stock></item>
+<item id="70010410001" selling_type="r" group_id="10001" available="false"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700104</barcode>
+<vendorCode>Z001-700104</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">40</param>
+<available>false</available>
+</item>
+<item id="70010510001" selling_type="r" group_id="10001" available="true"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700105</barcode>
+<vendorCode>Z001-700105</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">41</param>
+<available>true</available>
+<quantity_in_stock>3</quantity_in_stock></item>
+<item id="70010610001" selling_type="r" group_id="10001" available="true"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700106</barcode>
+<vendorCode>Z001-700106</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">42</param>
+<available>true</available>
+<quantity_in_stock>12</quantity_in_stock></item>
+<item id="70010710001" selling_type="r" group_id="10001" available="false"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700107</barcode>
+<vendorCode>Z001-700107</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">43</param>
+<available>false</available>
+</item>
+<item id="70010810001" selling_type="r" group_id="10001" available="true"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700108</barcode>
+<vendorCode>Z001-700108</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">44</param>
+<available>true</available>
+<quantity_in_stock>1</quantity_in_stock></item>
+<item id="70010910001" selling_type="r" group_id="10001" available="false"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700109</barcode>
+<vendorCode>Z001-700109</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">45</param>
+<available>false</available>
+</item>
+<item id="70011010001" selling_type="r" group_id="10001" available="false"><categoryId>900000000001</categoryId>
+<name>Кросівки Lorem Runner One 'Сірий' LR-0001</name>
+<priceuah>2650</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z001-700110</barcode>
+<vendorCode>Z001-700110</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000001.jpg</image>
+<param name="Розмір" unit="">46</param>
+<available>false</available>
+</item>
+<item id="70020010002" selling_type="r" group_id="10002" available="false"><categoryId>900000000002</categoryId>
+<name>Черевики Ipsum Winter Boot Чорний IP-0002</name>
+<priceuah>3100</priceuah>
+<description>&lt;p&gt;Матеріал : &lt;/p&gt;&lt;p&gt;Виробник : -&lt;/p&gt;</description>
+<barcode>Z002-700200</barcode>
+<vendorCode>Z002-700200</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000002.webp</image>
+<param name="Розмір" unit="">39</param>
+<available>false</available>
+</item>
+<item id="70020110002" selling_type="r" group_id="10002" available="false"><categoryId>900000000002</categoryId>
+<name>Черевики Ipsum Winter Boot Чорний IP-0002</name>
+<priceuah>3100</priceuah>
+<description>&lt;p&gt;Матеріал : &lt;/p&gt;&lt;p&gt;Виробник : -&lt;/p&gt;</description>
+<barcode>Z002-700201</barcode>
+<vendorCode>Z002-700201</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000002.webp</image>
+<param name="Розмір" unit="">40</param>
+<available>false</available>
+</item>
+<item id="70020210002" selling_type="r" group_id="10002" available="false"><categoryId>900000000002</categoryId>
+<name>Черевики Ipsum Winter Boot Чорний IP-0002</name>
+<priceuah>3100</priceuah>
+<description>&lt;p&gt;Матеріал : &lt;/p&gt;&lt;p&gt;Виробник : -&lt;/p&gt;</description>
+<barcode>Z002-700202</barcode>
+<vendorCode>Z002-700202</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000002.webp</image>
+<param name="Розмір" unit="">41</param>
+<available>false</available>
+</item>
+<item id="700300" selling_type="r" available="true"><categoryId>900000000004</categoryId>
+<name>Кепка Dolor Uno, один розмір</name>
+<priceuah>1200</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z003-700300</barcode>
+<vendorCode>Z003-700300</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000003.png</image>
+<param name="Розмір" unit="">Один розмір</param>
+<available>true</available>
+<quantity_in_stock>4</quantity_in_stock></item>
+<item id="70040010004" selling_type="r" group_id="10004" available="true"><categoryId>900000000003</categoryId>
+<name>Худі Tempora &amp; Logo Пісочний TP-0004</name>
+<priceuah>1890</priceuah>
+<description>&lt;p&gt;Склад : бавовна 80% &amp;amp; поліестер 20%&lt;/p&gt;</description>
+<barcode>Z004-700400</barcode>
+<vendorCode>Z004-700400</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000042.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000043.jpeg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<param name="Розмір" unit="">S</param>
+<available>true</available>
+<quantity_in_stock>1</quantity_in_stock></item>
+<item id="70040110004" selling_type="r" group_id="10004" available="false"><categoryId>900000000003</categoryId>
+<name>Худі Tempora &amp; Logo Пісочний TP-0004</name>
+<priceuah>1890</priceuah>
+<description>&lt;p&gt;Склад : бавовна 80% &amp;amp; поліестер 20%&lt;/p&gt;</description>
+<barcode>Z004-700401</barcode>
+<vendorCode>Z004-700401</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000042.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000043.jpeg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<param name="Розмір" unit="">M</param>
+<available>false</available>
+</item>
+<item id="70040210004" selling_type="r" group_id="10004" available="true"><categoryId>900000000003</categoryId>
+<name>Худі Tempora &amp; Logo Пісочний TP-0004</name>
+<priceuah>1890</priceuah>
+<description>&lt;p&gt;Склад : бавовна 80% &amp;amp; поліестер 20%&lt;/p&gt;</description>
+<barcode>Z004-700402</barcode>
+<vendorCode>Z004-700402</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000042.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000043.jpeg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<param name="Розмір" unit="">L</param>
+<available>true</available>
+<quantity_in_stock>7</quantity_in_stock></item>
+<item id="70040310004" selling_type="r" group_id="10004" available="true"><categoryId>900000000003</categoryId>
+<name>Худі Tempora &amp; Logo Пісочний TP-0004</name>
+<priceuah>1890</priceuah>
+<description>&lt;p&gt;Склад : бавовна 80% &amp;amp; поліестер 20%&lt;/p&gt;</description>
+<barcode>Z004-700403</barcode>
+<vendorCode>Z004-700403</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000042.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000043.jpeg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<param name="Розмір" unit="">XL</param>
+<available>true</available>
+<quantity_in_stock>2</quantity_in_stock></item>
+<item id="70040410004" selling_type="r" group_id="10004" available="true"><categoryId>900000000003</categoryId>
+<name>Худі Tempora &amp; Logo Пісочний TP-0004</name>
+<priceuah>1890</priceuah>
+<description>&lt;p&gt;Склад : бавовна 80% &amp;amp; поліестер 20%&lt;/p&gt;</description>
+<barcode>Z004-700404</barcode>
+<vendorCode>Z004-700404</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000042.jpg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000043.jpeg</image>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000041.jpg</image>
+<param name="Розмір" unit="">L</param>
+<available>true</available>
+<quantity_in_stock>3</quantity_in_stock></item>
+<item id="70050010005" selling_type="r" group_id="10005" available="true"><categoryId>900000000005</categoryId>
+<name>Кросівки Consectetur Split Price CO-0005</name>
+<priceuah>2000</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z005-700500</barcode>
+<vendorCode>Z005-700500</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000005.jpg</image>
+<image>https://media.example.invalid/fake.jpg</image>
+<param name="Розмір" unit="">40</param>
+<available>true</available>
+<quantity_in_stock>2</quantity_in_stock></item>
+<item id="70050110005" selling_type="r" group_id="10005" available="false"><categoryId>900000000005</categoryId>
+<name>Кросівки Consectetur Split Price CO-0005</name>
+<priceuah>2100</priceuah>
+<description>&lt;p&gt;Матеріал : Текстиль&lt;/p&gt;&lt;p&gt;Виробник : Тестляндія&lt;/p&gt;</description>
+<barcode>Z005-700501</barcode>
+<vendorCode>Z005-700501</vendorCode>
+<image>https://easydrop.one/media/uploads/images/base/00000000-0000-4000-8000-000000000005.jpg</image>
+<image>https://media.example.invalid/fake.jpg</image>
+<param name="Розмір" unit="">41</param>
+<available>false</available>
+<quantity_in_stock>3</quantity_in_stock></item>
+</items>
+</shop>

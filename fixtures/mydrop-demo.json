@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "externalId": "LS-DEMO-001",
+      "title": "Пальто Lorem Classico вовняне",
+      "description": "Лорем іпсум долор сіт амет, консектетур адіпісці еліт. Седдо ейусмод темпор інцидідунт ут лаборе.\nМатеріал: вовна 60%, поліамід 40%.\nДемонстраційний товар Lorem Store: бренд і опис вигадані.",
+      "category": "Пальта",
+      "costMinor": 125000,
+      "currency": "UAH",
+      "photos": [
+        "/media/540193f0-4a6f-4458-8dc9-1775e87b59bc.webp",
+        "/media/08bd3989-9234-4591-8d24-22a00bd39f75.webp"
+      ],
+      "variants": [
+        {
+          "id": "ls-demo-001-xs",
+          "size": "XS",
+          "stock": 0
+        },
+        {
+          "id": "ls-demo-001-s",
+          "size": "S",
+          "stock": 1
+        },
+        {
+          "id": "ls-demo-001-m",
+          "size": "M",
+          "stock": 5
+        },
+        {
+          "id": "ls-demo-001-l",
+          "size": "L",
+          "stock": 4
+        },
+        {
+          "id": "ls-demo-001-xl",
+          "size": "XL",
+          "stock": 8
+        }
+      ]
+    }
+  ]
+}

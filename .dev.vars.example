@@ -1,0 +1,7 @@
+# Local Wrangler only. Never set this in production.
+AUTH_DEV_BYPASS=true
+# For testing a real Access application instead of local bypass:
+# CF_ACCESS_TEAM_NAME=your-team-slug
+# CF_ACCESS_AUD=your-catalog-access-application-audience
+# Optional server-side dropshipper API key, from MyDrop Integrations:
+# MYDROP_API_KEY=your-key

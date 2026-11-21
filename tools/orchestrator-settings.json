@@ -1,0 +1,39 @@
+{
+  "worktree": {
+    "baseRef": "origin/main"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(bd *)",
+      "Bash(pnpm *)",
+      "Bash(npx vitest *)",
+      "Bash(npx playwright *)",
+      "Bash(npx tsc *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(git worktree *)",
+      "Bash(git switch *)",
+      "Edit(docs-local/**)",
+      "Edit(docs/**)",
+      "Edit(data/**)",
+      "Edit(evals/**)",
+      "Edit(apps/**)",
+      "Edit(packages/**)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)",
+      "Bash(git rebase *)",
+      "Bash(git commit --amend *)",
+      "Bash(git clean *)",
+      "Bash(rm -rf *)",
+      "Bash(bd delete *)",
+      "Bash(bd init *)"
+    ]
+  }
+}

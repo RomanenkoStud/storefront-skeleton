@@ -1,0 +1,52 @@
+/* Three-step checkout. Tokens only (apps/web/src/tokens.css); mobile first. */
+.checkout-steps{margin:0 0 var(--space-5)}
+.checkout-steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-2);counter-reset:none}
+.checkout-steps li{min-width:0;border-top:3px solid var(--line-200)}
+.checkout-steps li.done{border-top-color:var(--moss-500)}
+.checkout-steps li.current{border-top-color:var(--graphite-900)}
+.checkout-step{display:flex;align-items:center;gap:var(--space-2);min-height:var(--hit);width:100%;padding:var(--space-2) 0 0;margin:0;border:0;background:none;color:var(--ink-muted);font:inherit;font-size:var(--text-sm);letter-spacing:var(--tracking-button);text-align:left;overflow-wrap:anywhere}
+.checkout-steps li.current .checkout-step{color:var(--ink-900);font-weight:700}
+.checkout-steps li.done .checkout-step{color:var(--moss-500);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.checkout-steps button.checkout-step:focus-visible{outline:2px solid var(--focus-light);outline-offset:2px}
+.checkout-step-n{flex:none;display:inline-grid;place-items:center;width:var(--space-5);height:var(--space-5);border:var(--border-1) solid currentColor;border-radius:var(--radius-pill);font-size:var(--text-xs);text-decoration:none}
+.checkout-steps li.current .checkout-step-n{background:var(--graphite-900);border-color:var(--graphite-900);color:var(--cream-50)}
+
+.checkout-recipient{display:grid;gap:var(--space-4);margin:0 0 var(--space-5)}
+.checkout-field{display:grid;gap:var(--space-1);min-width:0}
+.checkout-field label{font-size:var(--text-sm);font-weight:600}
+.checkout-field input{width:100%;min-height:var(--hit);padding:10px 12px;font:inherit;font-size:var(--text-md);border:var(--border-1) solid var(--sage-200);border-radius:var(--radius-0);background:var(--paper-0);color:var(--ink-900);box-sizing:border-box}
+.checkout-field input:focus-visible{outline:2px solid var(--focus-light);outline-offset:1px}
+.checkout-field input[aria-invalid="true"]{border-color:var(--danger)}
+.checkout-field small{font-size:var(--text-xs);color:var(--ink-muted);line-height:var(--leading-text)}
+.checkout-error{margin:0;color:var(--danger);font-size:var(--text-sm)}
+
+.checkout-nav{display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;width:100%}
+.checkout-nav .button{min-height:var(--hit);flex:1 1 100%}
+.checkout-prepay{margin:0;display:grid;gap:var(--space-1)}
+.checkout-prepay div{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:baseline}
+.checkout-prepay dt{font-size:var(--text-md)}
+.checkout-prepay dt::after{content:':'}
+.checkout-prepay dd{margin:0;font-size:var(--text-md)}
+.checkout-prepay strong{font-size:var(--text-lg);color:var(--ink-900)}
+.checkout-recap{margin:0;overflow-wrap:anywhere}
+/* the buyer warning replaces the earlier calm note. A self-contained dark rack-room tile (graphite fill, cream text)
+   with the one loud colour only as the rule and the icon, so it reads the same on the light cart page and next to any dark band. */
+.checkout-warning{display:grid;gap:var(--space-2);margin:0 0 var(--space-5);padding:var(--space-4);border-left:var(--space-1) solid var(--lime);background:var(--graphite-900);color:var(--cream-50);overflow-wrap:anywhere}
+.checkout-warning-head{display:flex;align-items:center;gap:var(--space-3);min-width:0}
+.checkout-warning-icon{flex:none;width:var(--icon-lg);height:var(--icon-lg);color:var(--lime)}
+.checkout-warning h2{margin:0;font-family:var(--font-display);font-size:var(--display-sm);font-weight:700;line-height:var(--leading-display);letter-spacing:var(--tracking-button);text-transform:uppercase;color:var(--cream-50)}
+.checkout-warning-text{margin:0;font-size:var(--text-md);font-weight:600;line-height:var(--leading-text)}
+@media (forced-colors:active){.checkout-warning{border:var(--space-1) solid CanvasText}}
+/* the required terms checkbox (delivery step) */
+.checkout-terms{display:grid;gap:var(--space-1);width:100%}
+.checkout-terms-row{display:flex;align-items:center;gap:var(--space-3);min-height:var(--hit);font-size:var(--text-md);cursor:pointer;overflow-wrap:anywhere}
+.checkout-terms-row input{flex:none;width:var(--space-5);height:var(--space-5);margin:0;accent-color:var(--graphite-900);cursor:pointer}
+.checkout-terms-row input:focus-visible{outline:2px solid var(--focus-light);outline-offset:2px}
+.checkout-terms-row a{color:var(--ink-900);text-decoration:underline;text-underline-offset:3px}
+.checkout-terms-row a:focus-visible{outline:2px solid var(--focus-light);outline-offset:2px}
+.checkout-recap .text-button{min-height:var(--hit)}
+
+@media (min-width:651px){
+  .checkout-nav .button{flex:0 0 auto}
+  .checkout-step{font-size:var(--text-md)}
+}

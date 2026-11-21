@@ -1,0 +1,83 @@
+name: Nova Poshta catalog sync
+# Daily copy of Nova Poshta's branch and postomat directory into our own R2 bucket (ADR-0011).
+# Runs only from main, never on push or pull_request. Each job needs its own dedicated R2 S3 key pair; without
+# it the job reports a notice and succeeds, so this file is safe to merge before the credentials exist.
+# The deploy tokens (CLOUDFLARE_API_TOKEN, STAGING_CLOUDFLARE_API_TOKEN) are deliberately never used here.
+on:
+  schedule:
+    - cron: '30 0 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  production:
+    name: Sync production catalog
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    concurrency:
+      group: np-catalog-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: Sync the catalog
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NP_CATALOG_R2_ACCESS_KEY_ID: ${{ secrets.NP_CATALOG_R2_ACCESS_KEY_ID }}
+          NP_CATALOG_R2_SECRET_ACCESS_KEY: ${{ secrets.NP_CATALOG_R2_SECRET_ACCESS_KEY }}
+          NP_CATALOG_BUCKET: ${{ vars.NP_CATALOG_BUCKET }}
+        run: |
+          if [ -z "$NP_CATALOG_R2_ACCESS_KEY_ID" ] || [ -z "$NP_CATALOG_R2_SECRET_ACCESS_KEY" ]; then
+            echo "::notice::Production catalog sync skipped: the dedicated R2 credentials are not configured."
+            echo "Production catalog sync skipped: the dedicated R2 credentials are not configured." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ -z "$NP_CATALOG_BUCKET" ]; then
+            echo "::notice::Production catalog sync skipped: the NP_CATALOG_BUCKET variable is not set."
+            echo "Production catalog sync skipped: the NP_CATALOG_BUCKET variable is not set." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          node tools/np-catalog-sync.mjs
+
+  staging:
+    name: Sync staging catalog
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    concurrency:
+      group: np-catalog-staging
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: Sync the catalog
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NP_CATALOG_R2_ACCESS_KEY_ID: ${{ secrets.STAGING_NP_CATALOG_R2_ACCESS_KEY_ID }}
+          NP_CATALOG_R2_SECRET_ACCESS_KEY: ${{ secrets.STAGING_NP_CATALOG_R2_SECRET_ACCESS_KEY }}
+          NP_CATALOG_BUCKET: ${{ vars.STAGING_NP_CATALOG_BUCKET }}
+        run: |
+          if [ -z "$NP_CATALOG_R2_ACCESS_KEY_ID" ] || [ -z "$NP_CATALOG_R2_SECRET_ACCESS_KEY" ]; then
+            echo "::notice::Staging catalog sync skipped: the dedicated R2 credentials are not configured."
+            echo "Staging catalog sync skipped: the dedicated R2 credentials are not configured." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ -z "$NP_CATALOG_BUCKET" ]; then
+            echo "::notice::Staging catalog sync skipped: the STAGING_NP_CATALOG_BUCKET variable is not set."
+            echo "Staging catalog sync skipped: the STAGING_NP_CATALOG_BUCKET variable is not set." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          node tools/np-catalog-sync.mjs --staging

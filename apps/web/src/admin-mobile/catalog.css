@@ -1,0 +1,167 @@
+/* T2 catalog list, filter panel, bulk bar. Stub from T1: add rules here only.
+   Rules go inside @media (max-width: 639.98px) or @media (min-width: 640px) and (max-width: 1023.98px), every selector starts with
+   .admin-shell, no !important, font sizes in rem, colours from tokens (see base.css and tests/frontend/admin-mobile-css.test.js). */
+
+/* Tablet and phone: pager buttons reach the 44px touch target (the table keeps its own scroll region on tablet). */
+@media (max-width: 639.98px), (min-width: 640px) and (max-width: 1023.98px) {
+  .admin-shell .pagination .text-button {
+    min-width: var(--hit);
+    min-height: var(--hit);
+  }
+}
+
+/* Phone: stats, resource views, filters, select-all, cards and pager of the catalog list. */
+@media (max-width: 639.98px) {
+  /* Stats: 2x2, one line per tile, notes hidden (4 tiles stay under 120px). */
+  .admin-shell .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .admin-shell .stats-grid .stat {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: var(--space-1) var(--space-3);
+  }
+  .admin-shell .stats-grid .stat > span {
+    min-width: 0;
+    font-size: 0.75rem;
+  }
+  .admin-shell .stats-grid .stat > strong {
+    font-size: 1.125rem;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+  .admin-shell .stats-grid .stat > small,
+  .admin-shell .stats-grid .stat > small.stat-extra {
+    display: none;
+  }
+  /* Resource views and add product: one row of 44px buttons. */
+  .admin-shell .resource-views[aria-label="Режим каталогу"] {
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .admin-shell .resource-views[aria-label="Режим каталогу"] > button,
+  .admin-shell .resource-views[aria-label="Режим каталогу"] > .button.small {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: 0 var(--space-2);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+  /* Search stays visible; the six selects live in the filter disclosure. */
+  .admin-shell .panel-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+  .admin-shell .panel-toolbar .search-field {
+    flex: none;
+    min-width: 0;
+    width: 100%;
+  }
+  .admin-shell .panel-toolbar .search-field input {
+    font-size: 1rem;
+  }
+  .admin-shell .bulk-toolbar {
+    padding: var(--space-2) var(--space-3);
+  }
+  /* Select-all replaces the hidden header checkbox. */
+  .admin-shell .m-select-all {
+    justify-content: flex-start;
+    padding: 0 var(--space-3);
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  /* Cards. The catalog adds a stock row, so its template repeats the compound m-cards selector with .catalog-table. */
+  .admin-shell table.m-cards.catalog-table {
+    box-sizing: border-box;
+    padding: var(--space-3);
+  }
+  .admin-shell table.m-cards.catalog-table tr {
+    grid-template-areas:
+      "select thumb title title"
+      "select thumb sub sub"
+      "price price status status"
+      "stock stock stock stock"
+      "meta meta meta meta"
+      "actions actions actions actions";
+  }
+  .admin-shell table.m-cards.catalog-table td.m-sub {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+    white-space: normal;
+  }
+  .admin-shell table.m-cards.catalog-table td.m-sub > span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .admin-shell table.m-cards.catalog-table td.m-sub > .review-marker {
+    display: inline-block;
+    align-self: flex-start;
+    max-width: 100%;
+    white-space: normal;
+  }
+  .admin-shell table.m-cards.catalog-table td.m-sub > .internal-tags {
+    display: flex;
+    white-space: normal;
+  }
+  .admin-shell table.m-cards.catalog-table td.m-price > strong {
+    font-size: 1rem;
+  }
+  .admin-shell table.m-cards.catalog-table td.m-meta:nth-child(6) {
+    grid-area: stock;
+    margin-top: var(--space-1);
+  }
+  .admin-shell table.m-cards.catalog-table td.m-meta .stock-dot {
+    margin-right: var(--space-1);
+  }
+  .admin-shell table.m-cards.catalog-table td.m-status .cell-note {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: 0.75rem;
+    text-align: right;
+  }
+  /* Pager: 44px arrows (above), range text wraps. */
+  .admin-shell .panel-footer {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+  .admin-shell .panel-footer > span {
+    flex: 1 1 8rem;
+    min-width: 0;
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Phone: the bulk suggestion preview stacks its footer buttons (streetwear.css lays them out in a row) so the page never scrolls sideways. */
+@media (max-width: 639.98px) {
+  .admin-shell .bulk-preview {
+    margin: 0 var(--space-3) var(--space-3);
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .admin-shell .bulk-preview > div {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-shell .bulk-preview > div > .button {
+    width: 100%;
+    white-space: normal;
+  }
+}

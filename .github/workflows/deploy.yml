@@ -1,0 +1,14 @@
+name: Deploy Cloudflare
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  # ci.yml's staging-first gate needs these read scopes; a called workflow cannot exceed them.
+  actions: read
+  pull-requests: read
+jobs:
+  verified-deployment:
+    # Reuse the exact main-push CI pipeline (unit tests, check, build) before deploy.
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit

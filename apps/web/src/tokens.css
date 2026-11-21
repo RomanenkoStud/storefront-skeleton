@@ -1,0 +1,76 @@
+/* Lorem Store design tokens. Imported before the admin and storefront stylesheets in main.jsx. Documented in docs/design/DESIGN.md.
+   Tokens only: this file declares custom properties and no rules, so importing it changes nothing by itself.
+   Storefront CSS uses these names; a raw hex or px font size outside this file is rejected by `npm run check`
+   (tools/design-tokens-check.mjs). A new value needs a new token and a reason in DESIGN.md. */
+:root {
+  /* Colour: four families, one loud accent */
+  --graphite-950: #151917;  /* announcement bar, deepest surface */
+  --graphite-900: #1b201d;  /* header, footer, rack room, primary button */
+  --graphite-800: #242d24;  /* raised dark surface, dark buttons and chips (most used dark in the CSS today) */
+  --graphite-700: #3b423c;  /* borders on dark */
+  --ink-900:#222722;  /* body text on light */
+  --ink-muted:    #626861;  /* secondary text on light (4.9:1 on paper) */
+  --cream-100:    #f7f7f2;  /* page and catalog surface */
+  --cream-200:    #eeefe9;  /* manifesto band, text on dark */
+  --cream-300:    #e7e9e0;  /* editorial band */
+  --cream-50:     #f1f3ea;  /* logo cream, the light ink of the brand on dark */
+  --paper-0:#ffffff;  /* product photo stage, inputs */
+  --line-200:#dcded8;  /* borders on light */
+  --moss-700:     #33412f;  /* campaign band surface */
+  --moss-500:     #51614d;  /* two-tone headline, icons on light */
+  --moss-300:     #9eaf90;  /* muted text on dark */
+  --sage-200:     #cad2c0;  /* hairlines and soft borders on light cards (7 uses today) */
+  --lime:         #d7f16c;  /* the only loud colour: ticker, rules, count badge, focus on dark. Also the logo lime.
+                               Variants in use today (#d7f36b, #c9f27a, #d4ff43) are phase-2 consolidation, see DESIGN.md */
+  --danger:       #9a2c1f;
+  --warning:      #8a5a00;  /* cabinet status: near a limit, renewal due soon */
+  --focus-light:  #6c7d44;
+  /* Brand: logo colours of the confirmed family (B1 outline primary, S1 small cut, N1 monogram).
+     Values read from the logo SVGs; stroke weights are 4 (B1) and 3 (N1) in a 100-unit artboard. */
+  --brand-stroke-on-light: #1b201d;  /* B1 outline and N1 mark outline on light */
+  --brand-stroke-on-dark:  #f1f3ea;  /* B1 outline and N1 mark outline on dark */
+  --brand-fill-on-light:   #1b201d;  /* B1/N1 letter fill on light */
+  --brand-fill-on-dark:    #f1f3ea;  /* B1/N1 letter fill on dark */
+  --brand-fill-small:      #51614d;  /* S1 filled stacked small cut, light variant accent (moss) */
+  --brand-fill-small-dark: #d7f16c;  /* S1 and N1 small cut accent on dark (lime) */
+  /* Semantic aliases */
+  --surface: var(--cream-100); --surface-dark: var(--graphite-900); --text: var(--ink-900); --text-on-dark: var(--cream-200); --accent: var(--lime); --border-light: var(--line-200);
+
+  /* Type: two families, one mono for the rack readout */
+  --font-display: 'Oswald', 'Arial Narrow', sans-serif;   /* headlines, logo, prices in posters; always uppercase */
+  --font-text:    'DM Sans', Arial, sans-serif;           /* everything else */
+  --font-mono:    ui-monospace, 'SFMono-Regular', Menlo, monospace; /* rack readout only */
+  /* Scale: nine steps replace 35 sizes. Display steps are fluid. */
+  --text-2xs: 10px;  /* captions, poster index */
+  --text-xs:  11px;  /* eyebrows, card meta (uppercase, tracked) */
+  --text-sm:  13px;  /* nav, secondary copy, buttons */
+  --text-md:  15px;  /* body, card title, price */
+  --text-lg:  18px;  /* lead paragraph */
+  --display-sm: 24px;                       /* footer line, brand chips */
+  --display-md: clamp(32px, 3.6vw, 52px);   /* section titles */
+  --display-lg: clamp(38px, 5.2vw, 76px);   /* band headlines */
+  --display-xl: clamp(48px, 7vw, 100px);    /* the manifesto only */
+  --tracking-caps: .12em; --tracking-button: .04em; --tracking-display: -.02em;
+  --leading-display: .98; --leading-text: 1.6;
+
+  /* Space: 4 px base */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px;
+  --gutter: max(4vw, 20px);    /* page side padding, already used by every band */
+  --band-max: 1600px;
+  /* Breakpoints (documentation only; CSS vars cannot be used in @media): 650, 900, 1200 */
+
+  /* Shape: the storefront is square. One exception. */
+  --radius-0: 0;        /* buttons, cards, inputs, tiles */
+  --radius-pill: 999px; /* count badge, dots */
+  --border-1: 1px;
+
+  /* Icons: one set, one stroke */
+  --icon-stroke: 1.6;   /* 24-unit viewBox, round caps and joins */
+  --icon-sm: 18px; --icon-md: 22px; --icon-lg: 26px;
+  --hit: 44px;          /* minimum touch target */
+
+  /* Motion */
+  --dur-fast: 140ms; --dur-base: 200ms; --ease: cubic-bezier(.2, .7, .2, 1);
+  /* Layers */
+  --z-sticky: 50; --z-overlay: 100;
+}

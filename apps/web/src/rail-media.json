@@ -1,0 +1,262 @@
+{
+ "rack": {
+  "src": "/rail/rack.webp",
+  "w": 1092,
+  "h": 817,
+  "bar": 0.027,
+  "post": 0.062,
+  "shelf": 0.785
+ },
+ "clothes": [
+  {
+   "categoryId": "zip-hoodies",
+   "front": {
+    "src": "/rail/zip-hoodies-front.webp",
+    "w": 509,
+    "h": 736
+   },
+   "side": {
+    "src": "/rail/zip-hoodies-side.webp",
+    "w": 193,
+    "h": 724
+   },
+   "angle": {
+    "src": "/rail/zip-hoodies-angle.webp",
+    "w": 353,
+    "h": 736
+   }
+  },
+  {
+   "categoryId": "puffer-jackets",
+   "front": {
+    "src": "/rail/puffer-jackets-front.webp",
+    "w": 568,
+    "h": 736
+   },
+   "side": {
+    "src": "/rail/puffer-jackets-side.webp",
+    "w": 153,
+    "h": 736
+   },
+   "angle": {
+    "src": "/rail/puffer-jackets-angle.webp",
+    "w": 468,
+    "h": 736
+   }
+  },
+  {
+   "categoryId": "turtlenecks",
+   "front": {
+    "src": "/rail/turtlenecks-front.webp",
+    "w": 520,
+    "h": 735
+   },
+   "side": {
+    "src": "/rail/turtlenecks-side.webp",
+    "w": 119,
+    "h": 736
+   },
+   "angle": {
+    "src": "/rail/turtlenecks-angle.webp",
+    "w": 377,
+    "h": 742
+   }
+  },
+  {
+   "categoryId": "windbreakers",
+   "front": {
+    "src": "/rail/windbreakers-front.webp",
+    "w": 520,
+    "h": 712
+   },
+   "side": {
+    "src": "/rail/windbreakers-side.webp",
+    "w": 185,
+    "h": 724
+   },
+   "angle": {
+    "src": "/rail/windbreakers-angle.webp",
+    "w": 374,
+    "h": 732
+   }
+  },
+  {
+   "categoryId": "jeans",
+   "front": {
+    "src": "/rail/jeans-front.webp",
+    "w": 334,
+    "h": 736
+   },
+   "side": {
+    "src": "/rail/jeans-side.webp",
+    "w": 78,
+    "h": 736
+   },
+   "angle": {
+    "src": "/rail/jeans-angle.webp",
+    "w": 217,
+    "h": 726
+   }
+  },
+  {
+   "categoryId": "sweatshirts",
+   "front": {
+    "src": "/rail/sweatshirts-front.webp",
+    "w": 520,
+    "h": 721
+   },
+   "side": {
+    "src": "/rail/sweatshirts-side.webp",
+    "w": 121,
+    "h": 727
+   },
+   "angle": {
+    "src": "/rail/sweatshirts-angle.webp",
+    "w": 360,
+    "h": 728
+   }
+  },
+  {
+   "categoryId": "cardigans",
+   "front": {
+    "src": "/rail/cardigans-front.webp",
+    "w": 520,
+    "h": 717
+   },
+   "side": {
+    "src": "/rail/cardigans-side.webp",
+    "w": 157,
+    "h": 734
+   },
+   "angle": {
+    "src": "/rail/cardigans-angle.webp",
+    "w": 318,
+    "h": 740
+   }
+  },
+  {
+   "categoryId": "shorts",
+   "front": {
+    "src": "/rail/shorts-front.webp",
+    "w": 520,
+    "h": 624
+   },
+   "side": {
+    "src": "/rail/shorts-side.webp",
+    "w": 147,
+    "h": 651
+   },
+   "angle": {
+    "src": "/rail/shorts-angle.webp",
+    "w": 420,
+    "h": 643
+   }
+  },
+  {
+   "categoryId": "hoodies",
+   "front": {
+    "src": "/rail/hoodies-front.webp",
+    "w": 520,
+    "h": 728
+   },
+   "side": {
+    "src": "/rail/hoodies-side.webp",
+    "w": 219,
+    "h": 728
+   },
+   "angle": {
+    "src": "/rail/hoodies-angle.webp",
+    "w": 292,
+    "h": 731
+   }
+  },
+  {
+   "categoryId": "tshirts-polos",
+   "front": {
+    "src": "/rail/tshirts-polos-front.webp",
+    "w": 518,
+    "h": 727
+   },
+   "side": {
+    "src": "/rail/tshirts-polos-side.webp",
+    "w": 100,
+    "h": 728
+   },
+   "angle": {
+    "src": "/rail/tshirts-polos-angle.webp",
+    "w": 282,
+    "h": 723
+   }
+  },
+  {
+   "categoryId": "pants-other",
+   "front": {
+    "src": "/rail/pants-other-front.webp",
+    "w": 345,
+    "h": 740
+   },
+   "side": {
+    "src": "/rail/pants-other-side.webp",
+    "w": 114,
+    "h": 740
+   },
+   "angle": {
+    "src": "/rail/pants-other-angle.webp",
+    "w": 212,
+    "h": 733
+   }
+  },
+  {
+   "categoryId": "coats-vests",
+   "front": {
+    "src": "/rail/coats-vests-front.webp",
+    "w": 490,
+    "h": 738
+   },
+   "side": {
+    "src": "/rail/coats-vests-side.webp",
+    "w": 132,
+    "h": 725
+   },
+   "angle": {
+    "src": "/rail/coats-vests-angle.webp",
+    "w": 313,
+    "h": 724
+   }
+  }
+ ],
+ "shoes": [
+  {
+   "categoryId": "sneakers",
+   "src": "/rail/shoe-sneakers.webp",
+   "w": 360,
+   "h": 171
+  },
+  {
+   "categoryId": "canvas-shoes",
+   "src": "/rail/shoe-canvas-shoes.webp",
+   "w": 360,
+   "h": 199,
+   "flip": true
+  },
+  {
+   "categoryId": "boots",
+   "src": "/rail/shoe-boots.webp",
+   "w": 360,
+   "h": 297
+  },
+  {
+   "categoryId": "loafers",
+   "src": "/rail/shoe-loafers.webp",
+   "w": 360,
+   "h": 189,
+   "flip": true
+  },
+  {
+   "categoryId": "slippers",
+   "src": "/rail/shoe-slippers.webp",
+   "w": 360,
+   "h": 213
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+/* delivery facts band and fuller footer. Pending terms are styled amber/dashed so they never read as real terms. */
+.storefront .delivery-band,#delivery{scroll-margin-top:64px}
+.storefront .delivery-band{background:#f7f7f2;border-top:1px solid #dcded8;padding:44px max(4vw,20px);color:#222722}
+.storefront .delivery-title{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.storefront .delivery-facts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:34px}
+.storefront .delivery-fact{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:start}
+.storefront .delivery-fact .delivery-glyph{grid-row:span 2;color:#51614d;margin-top:1px}
+.storefront .delivery-fact h3{font:600 14px/1.4 'DM Sans',Arial,sans-serif;letter-spacing:0;text-transform:none;margin:0;color:#222722}
+.storefront .delivery-fact p{font-size:13px;line-height:1.55;color:#4f5650;margin:0}
+.storefront .delivery-fact.is-pending h3,.storefront .delivery-fact.is-pending .delivery-glyph{color:#7a5208}
+.storefront .delivery-pending{display:inline-block;border:1px dashed #9a7430;background:#fbf6e6;color:#6f4b05;padding:5px 8px;font-size:12px;line-height:1.5}
+.storefront .delivery-fact .delivery-pending{color:#6f4b05}
+@media(max-width:900px){.storefront .delivery-facts{grid-template-columns:1fr 1fr;gap:26px}}
+@media(max-width:650px){.storefront .delivery-band{padding:30px 20px}.storefront .delivery-facts{grid-template-columns:1fr;gap:20px}}
+
+/* Fuller footer: overrides the single-row .store-footer rules in streetwear.css. */
+.storefront .store-footer.site-footer{display:block;padding:52px max(4vw,20px) 30px;font-family:'DM Sans',Arial,sans-serif}
+.storefront .store-footer.site-footer .site-footer-inner{display:block;font-size:13px;letter-spacing:0;margin:0}
+.storefront .store-footer.site-footer .site-footer-cols{display:grid;grid-template-columns:1.3fr 1fr 1.25fr 1fr;gap:40px;margin:0;font-size:13px;letter-spacing:0}
+.storefront .store-footer.site-footer h2{font:600 11px/1.4 'DM Sans',Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#a9b99b;margin:0 0 14px}
+.storefront .store-footer.site-footer ul{margin:0;padding:0;list-style:none}
+.storefront .store-footer.site-footer li,.storefront .store-footer.site-footer .site-footer-col p{font:400 13px/1.65 'DM Sans',Arial,sans-serif;letter-spacing:0;color:#d5dccb;margin:0 0 7px;max-width:none}
+.storefront .store-footer.site-footer .site-footer-tag{font:500 22px/1.25 'Oswald',sans-serif;letter-spacing:.5px;color:#c3d2b6;margin:22px 0 0;max-width:none}
+.storefront .store-footer.site-footer a{color:#e8efdf;text-decoration:none}
+.storefront .store-footer.site-footer a:hover{text-decoration:underline;text-underline-offset:3px}
+.storefront .store-footer.site-footer a:focus-visible{outline:2px solid #c3d2b6;outline-offset:3px;border-radius:2px}
+.storefront .store-footer.site-footer .delivery-pending{color:#e2c476;border-color:#86753f;background:transparent;padding:3px 7px;font-size:12px}
+.storefront .store-footer.site-footer .site-footer-base{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 20px;border-top:1px solid #343c35;margin:40px 0 0;padding-top:18px;font-size:11px;letter-spacing:.7px}
+.storefront .store-footer.site-footer .site-footer-base small{font-size:11px;color:#a9b99b;letter-spacing:.3px}
+.storefront .store-footer.site-footer .site-footer-base .photo-note{flex:1 0 100%;order:9;margin:0;font:400 12px/1.5 'DM Sans',Arial,sans-serif;letter-spacing:0;color:#a9b99b;max-width:none}
+@media(max-width:900px){.storefront .store-footer.site-footer .site-footer-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.storefront .store-footer.site-footer{padding:34px 20px 24px}.storefront .store-footer.site-footer .site-footer-cols{gap:28px 20px}.storefront .store-footer.site-footer .site-footer-brand{grid-column:1/-1}.storefront .store-footer.site-footer .site-footer-tag{font-size:19px}.storefront .store-footer.site-footer .site-footer-base{margin-top:30px}}

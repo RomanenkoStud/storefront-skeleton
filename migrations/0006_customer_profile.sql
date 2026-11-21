@@ -1,0 +1,2 @@
+-- Customer profile and Nova Poshta preference (ADR-0003). Owner-only PII; removed with the customer by cascade.
+CREATE TABLE customer_profiles (customer_id TEXT PRIMARY KEY REFERENCES customers(id) ON DELETE CASCADE, display_name TEXT, phone_e164 TEXT, contact_email TEXT, np_type TEXT CHECK (np_type IS NULL OR np_type IN ('branch','postomat')), np_city_name TEXT, np_city_ref TEXT, np_warehouse_number TEXT, np_warehouse_ref TEXT, np_note TEXT, np_source TEXT CHECK (np_source IS NULL OR np_source IN ('manual','np-api')), updated_at TEXT NOT NULL);
