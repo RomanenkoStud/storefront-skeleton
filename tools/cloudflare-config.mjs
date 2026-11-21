@@ -126,10 +126,10 @@ export function productionConfig(base, env = process.env) {
   return config;
 }
 
-export const STAGING_NAME = 'lorem-store-staging';
-export const STAGING_D1_NAME = 'lorem-store-staging';
-export const STAGING_R2_BUCKET_NAME = 'lorem-store-media-staging';
-export const STAGING_NP_CATALOG_BUCKET_NAME = 'lorem-store-np-catalog-staging';
+export const STAGING_NAME = 'storefront-skeleton-staging';
+export const STAGING_D1_NAME = 'storefront-skeleton-staging';
+export const STAGING_R2_BUCKET_NAME = 'storefront-skeleton-media-staging';
+export const STAGING_NP_CATALOG_BUCKET_NAME = 'storefront-skeleton-np-catalog-staging';
 export const STAGING_ORIGIN = 'https://staging.example.com';
 export const STAGING_ADMIN_HOST = 'staging.example.com';
 // Explicit allowlist of top-level keys staging may inherit. Everything else (every

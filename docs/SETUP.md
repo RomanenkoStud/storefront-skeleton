@@ -16,8 +16,8 @@ For local work you do not need this guide. See the quick start in [README.md](..
 
 | Environment | Branch | Worker | D1 database | Host | Manager access |
 | --- | --- | --- | --- | --- | --- |
-| Staging | `staging` | `lorem-store-staging` | `lorem-store-staging` | `staging.example.com` | Cloudflare Access on the whole host |
-| Production | `main` | `lorem-store` | `lorem-store` | `example.com` | Cloudflare Access on the manager paths |
+| Staging | `staging` | `storefront-skeleton-staging` | `storefront-skeleton-staging` | `staging.example.com` | Cloudflare Access on the whole host |
+| Production | `main` | `storefront-skeleton` | `storefront-skeleton` | `example.com` | Cloudflare Access on the manager paths |
 
 - Staging and production use one Cloudflare account. Each has its own Worker, D1 database, R2 buckets and API token.
 - A push to `staging` deploys staging (`staging.yml`).
@@ -79,18 +79,18 @@ Get the account ID from the Cloudflare dashboard (the account overview) or from 
 ### 3.1 D1 databases
 
 ```bash
-npx wrangler d1 create lorem-store
-npx wrangler d1 create lorem-store-staging
-npx wrangler d1 info lorem-store-staging
+npx wrangler d1 create storefront-skeleton
+npx wrangler d1 create storefront-skeleton-staging
+npx wrangler d1 info storefront-skeleton-staging
 ```
 
 | Database | Record the UUID in |
 | --- | --- |
-| `lorem-store` | Variable `CLOUDFLARE_D1_DATABASE_ID` |
-| `lorem-store-staging` | Variable `STAGING_D1_DATABASE_ID` |
+| `storefront-skeleton` | Variable `CLOUDFLARE_D1_DATABASE_ID` |
+| `storefront-skeleton-staging` | Variable `STAGING_D1_DATABASE_ID` |
 
 - Do not put the real UUID in `wrangler.jsonc`. The committed UUID is a placeholder. The deploy writes the real UUID into a generated config file (`wrangler.production.json`, `wrangler.staging.json`).
-- The staging deploy checks that the name `lorem-store-staging` resolves to `STAGING_D1_DATABASE_ID`. The two UUIDs must be different.
+- The staging deploy checks that the name `storefront-skeleton-staging` resolves to `STAGING_D1_DATABASE_ID`. The two UUIDs must be different.
 - You do not apply migrations by hand. Each deploy applies them.
 
 ### 3.2 R2 buckets
@@ -98,18 +98,18 @@ npx wrangler d1 info lorem-store-staging
 R2 is optional for a first deploy, but uploads, cutouts and thumbnails return `503` without the `MEDIA` binding. The Nova Poshta picker needs its own bucket in production.
 
 ```bash
-npx wrangler r2 bucket create lorem-store-media
-npx wrangler r2 bucket create lorem-store-media-staging
-npx wrangler r2 bucket create lorem-store-np-catalog
-npx wrangler r2 bucket create lorem-store-np-catalog-staging
+npx wrangler r2 bucket create storefront-skeleton-media
+npx wrangler r2 bucket create storefront-skeleton-media-staging
+npx wrangler r2 bucket create storefront-skeleton-np-catalog
+npx wrangler r2 bucket create storefront-skeleton-np-catalog-staging
 ```
 
 | Bucket | Binding | Variable | Rule |
 | --- | --- | --- | --- |
-| `lorem-store-media` | `MEDIA` (production) | `CLOUDFLARE_R2_BUCKET` | Any valid name. `lorem-store-media` is the default of the thumbnail tool. |
-| `lorem-store-media-staging` | `MEDIA` (staging) | `STAGING_R2_BUCKET` | Must be exactly this name. Needs `CLOUDFLARE_R2_BUCKET` set. |
-| `lorem-store-np-catalog` | `NP_CATALOG` (production) | `NP_CATALOG_BUCKET` | Any valid name. Must differ from `CLOUDFLARE_R2_BUCKET`. |
-| `lorem-store-np-catalog-staging` | `NP_CATALOG` (staging) | `STAGING_NP_CATALOG_BUCKET` | Must be exactly this name. Needs `NP_CATALOG_BUCKET` set. |
+| `storefront-skeleton-media` | `MEDIA` (production) | `CLOUDFLARE_R2_BUCKET` | Any valid name. `storefront-skeleton-media` is the default of the thumbnail tool. |
+| `storefront-skeleton-media-staging` | `MEDIA` (staging) | `STAGING_R2_BUCKET` | Must be exactly this name. Needs `CLOUDFLARE_R2_BUCKET` set. |
+| `storefront-skeleton-np-catalog` | `NP_CATALOG` (production) | `NP_CATALOG_BUCKET` | Any valid name. Must differ from `CLOUDFLARE_R2_BUCKET`. |
+| `storefront-skeleton-np-catalog-staging` | `NP_CATALOG` (staging) | `STAGING_NP_CATALOG_BUCKET` | Must be exactly this name. Needs `NP_CATALOG_BUCKET` set. |
 
 If a variable is empty, the deploy does not add that binding.
 
@@ -136,12 +136,12 @@ The permissions below come from the commands that each workflow runs. Use the sm
 The config has no `routes` entry. Staging sets `workers_dev: false` and `preview_urls: false`. Add the hosts in the dashboard after the first deploy of each Worker (step 8).
 
 1. Create the Access applications first (step 5). A host must not be public before Access protects it.
-2. Open **Workers & Pages > lorem-store-staging > Settings > Domains & Routes**. Add the custom domain `staging.example.com`. Cloudflare creates the DNS record and the certificate.
-3. Open **Workers & Pages > lorem-store > Settings > Domains & Routes**. Add the custom domain `example.com` (and `www.example.com` if you need it).
+2. Open **Workers & Pages > storefront-skeleton-staging > Settings > Domains & Routes**. Add the custom domain `staging.example.com`. Cloudflare creates the DNS record and the certificate.
+3. Open **Workers & Pages > storefront-skeleton > Settings > Domains & Routes**. Add the custom domain `example.com` (and `www.example.com` if you need it).
 4. On the staging Worker, make sure that the `workers.dev` route and Preview URLs are disabled.
 5. Set the variable `CATALOG_PRODUCTION_URL` to `https://example.com`. Set `STAGING_URL` and `STAGING_ADMIN_URL` to `https://staging.example.com`. Then the smoke checks run on the next deploy.
 
-> The production config does not set `workers_dev`. If the `workers.dev` route of `lorem-store` stays on, the manager paths are reachable there without the Access application. The Worker still verifies the Access JWT on every manager request, so such a request fails. A later `wrangler deploy` can turn the route on again, because the config does not turn it off.
+> The production config does not set `workers_dev`. If the `workers.dev` route of `storefront-skeleton` stays on, the manager paths are reachable there without the Access application. The Worker still verifies the Access JWT on every manager request, so such a request fails. A later `wrangler deploy` can turn the route on again, because the config does not turn it off.
 
 ## 5. Cloudflare Zero Trust Access
 
@@ -221,8 +221,8 @@ Add these in **Settings > Secrets and variables > Actions**. The list contains e
 | `STAGING_CLOUDFLARE_API_TOKEN` | Secret | Yes (staging) | Step 3.3, staging deploy token |
 | `STAGING_D1_DATABASE_ID` | Variable | Yes (staging) | Step 3.1 |
 | `STAGING_CF_ACCESS_AUD` | Variable | Yes (staging) | Step 5.4 |
-| `STAGING_R2_BUCKET` | Variable | No | Exactly `lorem-store-media-staging` |
-| `STAGING_NP_CATALOG_BUCKET` | Variable | No | Exactly `lorem-store-np-catalog-staging` |
+| `STAGING_R2_BUCKET` | Variable | No | Exactly `storefront-skeleton-media-staging` |
+| `STAGING_NP_CATALOG_BUCKET` | Variable | No | Exactly `storefront-skeleton-np-catalog-staging` |
 | `STAGING_URL` | Variable | No | Exactly `https://staging.example.com`, after step 4 |
 | `STAGING_ADMIN_URL` | Variable | No | Exactly `https://staging.example.com`, after step 4 |
 | `STAGING_GOOGLE_CLIENT_ID` | Variable | No | Step 6 |
@@ -306,7 +306,7 @@ Details and rollback are in [MEDIA.md](MEDIA.md).
 
 ### 9.3 Production staff key
 
-`configure-staff-key.yml` adds a missing production `STAFF_AUTH_HMAC_KEY` to the Worker `lorem-store`. It never rotates an existing key.
+`configure-staff-key.yml` adds a missing production `STAFF_AUTH_HMAC_KEY` to the Worker `storefront-skeleton`. It never rotates an existing key.
 
 1. Make sure that the current `main` head has a successful production deploy.
 2. Run **Configure production staff key** from `main`. Select `configure-production-staff-key` as the confirmation.
@@ -329,11 +329,11 @@ Suppliers are optional for the shop, but the production deploy needs `MYDROP_API
 | Symptom | Cause | Action |
 | --- | --- | --- |
 | `Set repository secret ... before deploying` | A required secret is missing or has a line break. | Add the secret (step 7). Paste it without a trailing newline. |
-| `Set CLOUDFLARE_D1_DATABASE_ID to the provisioned production D1 UUID.` | The variable is empty, malformed or the placeholder UUID. | Copy the UUID from `npx wrangler d1 info lorem-store`. |
+| `Set CLOUDFLARE_D1_DATABASE_ID to the provisioned production D1 UUID.` | The variable is empty, malformed or the placeholder UUID. | Copy the UUID from `npx wrangler d1 info storefront-skeleton`. |
 | `Configure CF_ACCESS_TEAM_NAME and the catalog Access application CF_ACCESS_AUD.` | Team name or AUD is missing or malformed. | Use only the `<team>` part. The AUD is 64 hex characters. |
 | `STAGING_... must differ from ...` | A staging value equals the production value. | Create separate staging resources. |
-| `STAGING_R2_BUCKET must be exactly lorem-store-media-staging.` | The staging bucket names are fixed. | Use the exact name, or change the constants (step 1.1). |
-| `Expected exactly one D1 database named lorem-store-staging` | The staging database is missing, or the token sees another account. | Create it (step 3.1). Check `CLOUDFLARE_ACCOUNT_ID`. |
+| `STAGING_R2_BUCKET must be exactly storefront-skeleton-media-staging.` | The staging bucket names are fixed. | Use the exact name, or change the constants (step 1.1). |
+| `Expected exactly one D1 database named storefront-skeleton-staging` | The staging database is missing, or the token sees another account. | Create it (step 3.1). Check `CLOUDFLARE_ACCOUNT_ID`. |
 | `Staging D1 has migrations missing from this ref` | Staging got a migration from a branch that `main` does not have. | Recreate the staging D1, update `STAGING_D1_DATABASE_ID` and deploy again. |
 | `... did not redirect to the Access login` or `host is exposed` | The staging Access application does not cover the whole host. | Fix the application (step 5.4). |
 | `No successful staging deploy exists` or `head ... is not on staging` | The PR head is not live on staging. | Merge the same head into `staging` with a merge commit, wait for the deploy, then promote. |

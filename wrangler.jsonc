@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "lorem-store",
+  "name": "storefront-skeleton",
   "main": "apps/api/src/index.js",
   "compatibility_date": "2026-11-12",
   "assets": {
@@ -26,7 +26,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "lorem-store",
+      "database_name": "storefront-skeleton",
       "database_id": "00000000-0000-0000-0000-000000000000",
       "migrations_dir": "migrations"
     }
@@ -34,7 +34,7 @@
   "r2_buckets": [
     {
       "binding": "MEDIA",
-      "bucket_name": "lorem-store-media"
+      "bucket_name": "storefront-skeleton-media"
     }
   ],
   "vars": {
@@ -52,7 +52,7 @@
   },
   "env": {
     "staging": {
-      "name": "lorem-store-staging",
+      "name": "storefront-skeleton-staging",
       "workers_dev": false,
       "preview_urls": false,
       "triggers": {
@@ -67,7 +67,7 @@
       "d1_databases": [
         {
           "binding": "DB",
-          "database_name": "lorem-store-staging",
+          "database_name": "storefront-skeleton-staging",
           "database_id": "00000000-0000-0000-0000-000000000000",
           "migrations_dir": "migrations"
         }

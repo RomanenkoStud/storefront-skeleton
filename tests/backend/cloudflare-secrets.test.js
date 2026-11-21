@@ -163,7 +163,7 @@ test('analytics secrets: empty without a token; staging uses only staging identi
   assert.deepEqual(analyticsSecrets({ CLOUDFLARE_ACCOUNT_ID: account }), {});
   assert.deepEqual(analyticsSecrets({ CF_ANALYTICS_API_TOKEN: ' tok ', CLOUDFLARE_ACCOUNT_ID: account, CLOUDFLARE_D1_DATABASE_ID: 'prod-db', CLOUDFLARE_R2_BUCKET: 'prod-media' }),
     { CF_ANALYTICS_API_TOKEN: 'tok', INFRA_ACCOUNT_ID: account, INFRA_D1_DATABASE_ID: 'prod-db', INFRA_R2_BUCKET: 'prod-media' });
-  const staging = analyticsSecrets({ STAGING_CF_ANALYTICS_API_TOKEN: 'stok', CF_ANALYTICS_API_TOKEN: 'prod-tok', CLOUDFLARE_ACCOUNT_ID: account, STAGING_D1_DATABASE_ID: 'stg-db', CLOUDFLARE_D1_DATABASE_ID: 'prod-db', STAGING_R2_BUCKET: 'lorem-store-media-staging', CLOUDFLARE_R2_BUCKET: 'prod-media' }, 'STAGING_');
-  assert.deepEqual(staging, { CF_ANALYTICS_API_TOKEN: 'stok', INFRA_ACCOUNT_ID: account, INFRA_D1_DATABASE_ID: 'stg-db', INFRA_R2_BUCKET: 'lorem-store-media-staging' });
+  const staging = analyticsSecrets({ STAGING_CF_ANALYTICS_API_TOKEN: 'stok', CF_ANALYTICS_API_TOKEN: 'prod-tok', CLOUDFLARE_ACCOUNT_ID: account, STAGING_D1_DATABASE_ID: 'stg-db', CLOUDFLARE_D1_DATABASE_ID: 'prod-db', STAGING_R2_BUCKET: 'storefront-skeleton-media-staging', CLOUDFLARE_R2_BUCKET: 'prod-media' }, 'STAGING_');
+  assert.deepEqual(staging, { CF_ANALYTICS_API_TOKEN: 'stok', INFRA_ACCOUNT_ID: account, INFRA_D1_DATABASE_ID: 'stg-db', INFRA_R2_BUCKET: 'storefront-skeleton-media-staging' });
   assert.deepEqual(analyticsSecrets({ CF_ANALYTICS_API_TOKEN: 'prod-tok' }, 'STAGING_'), {}, 'staging never falls back to the production token');
 });

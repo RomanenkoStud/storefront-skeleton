@@ -15,7 +15,7 @@ export const PAGE_SIZE = 500, PULL_CONCURRENCY = 2, UPLOAD_CONCURRENCY = 4, REQU
 // A shortfall up to this bound is accepted only when every page before the last was full and the last page came back short.
 export const TOTAL_SLACK = total => Math.max(10, Math.floor(total * 0.001));
 export const DROP_FLOOR = 0.8, MIN_AGE_MS = 600000, MAX_PAGE_BYTES = 16 * 1024 * 1024;
-export const STAGING_BUCKET = 'lorem-store-np-catalog-staging';
+export const STAGING_BUCKET = 'storefront-skeleton-np-catalog-staging';
 const CONTENT_TYPE = 'application/json; charset=utf-8';
 const SNAPSHOT_KEY = /^np-catalog\/v1\/(\d{8}T\d{6}Z)\//;
 

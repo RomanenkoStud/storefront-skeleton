@@ -39,7 +39,7 @@ test('staging workflow passes both NP catalog bucket variables to the config gen
 });
 
 test('staging workflow runs the required steps in order', () => {
-  const order = ['Deploy only commits on refs/heads/staging', 'npm run check', 'npm test', 'npm run build', 'cloudflare-config.mjs --staging', 'deploy --dry-run --config wrangler.staging.json', "'d1', 'list', '--json'", 'wrangler r2 bucket info lorem-store-media-staging', 'd1_migrations', 'd1 migrations apply DB --remote --config wrangler.staging.json', 'cloudflare-secrets.mjs --staging-deploy', 'cloudflareaccess.com'];
+  const order = ['Deploy only commits on refs/heads/staging', 'npm run check', 'npm test', 'npm run build', 'cloudflare-config.mjs --staging', 'deploy --dry-run --config wrangler.staging.json', "'d1', 'list', '--json'", 'wrangler r2 bucket info storefront-skeleton-media-staging', 'd1_migrations', 'd1 migrations apply DB --remote --config wrangler.staging.json', 'cloudflare-secrets.mjs --staging-deploy', 'cloudflareaccess.com'];
   let at = -1;
   for (const marker of order) { const next = text.indexOf(marker); assert.ok(next > at, marker); at = next; }
   assert.match(text, /ref: \$\{\{ needs\.gate\.outputs\.sha \}\}/);
@@ -86,7 +86,7 @@ test('production deploy passes the Nova Post catalog bucket so cloudflare-config
 
 test('remote Cloudflare commands name the staging config and the first-deploy tolerance is exact', () => {
   assert.match(text, /'d1', 'list', '--json', '--config', 'wrangler\.staging\.json'/);
-  assert.match(text, /r2 bucket info lorem-store-media-staging --config wrangler\.staging\.json/);
+  assert.match(text, /r2 bucket info storefront-skeleton-media-staging --config wrangler\.staging\.json/);
   assert.match(text, /\/no such table: d1_migrations\/i/);
 });
 

@@ -130,9 +130,9 @@ Each Worker tick:
 
 | | Local | Staging | Production |
 | --- | --- | --- | --- |
-| Worker | `wrangler dev` | `lorem-store-staging` | `lorem-store` |
+| Worker | `wrangler dev` | `storefront-skeleton-staging` | `storefront-skeleton` |
 | Host | `localhost:8787` | `staging.example.com` | `example.com` |
-| D1 | local `.wrangler` state | `lorem-store-staging` | `lorem-store` |
+| D1 | local `.wrangler` state | `storefront-skeleton-staging` | `storefront-skeleton` |
 | Data | fixtures | synthetic only; no MyDrop key | live supplier inventory |
 | Auth | loopback bypass | whole-host Access gate; `ADMIN_HOST` | path-scoped Access application |
 | Cron | none | none | `*/5 * * * *` |

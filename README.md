@@ -56,7 +56,7 @@ npm run dev                      # builds the web app and starts the Worker on p
 2. Open `http://localhost:8787/admin` for the cabinet. The loopback development bypass signs you in as the owner `dev@localhost`. It works only with `AUTH_DEV_BYPASS=true`, `APP_ENV=development` and a loopback host.
 3. For hot reload, keep the Worker running and run `npm run dev:web` in a second terminal. Vite serves on port 5173 and proxies `/api` and `/media` to port 8787.
 
-`npm run seed:demo` writes to the local D1 and uploads the demo photos one by one to the local R2 `MEDIA` binding (`lorem-store-media`). It takes about a minute. It is idempotent. Options: `--dry-run`, `--persist-to <dir>`, `--config <file>`, `--bucket <name>`. It touches Cloudflare only with `--remote`.
+`npm run seed:demo` writes to the local D1 and uploads the demo photos one by one to the local R2 `MEDIA` binding (`storefront-skeleton-media`). It takes about a minute. It is idempotent. Options: `--dry-run`, `--persist-to <dir>`, `--config <file>`, `--bucket <name>`. It touches Cloudflare only with `--remote`.
 
 ## Checks and tests
 

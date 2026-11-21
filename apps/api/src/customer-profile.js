@@ -126,7 +126,7 @@ export async function handleExport(env, ctx) {
     identities: identities.map(row => ({ provider: row.provider, subject: row.subject, handle: row.display_handle ?? null, linkedAt: row.created_at, lastUsedAt: row.last_used_at ?? null })),
     profile: await load(env, id),
     auditEvents: events.map(row => ({ action: row.action, fields: JSON.parse(row.fields), createdAt: row.created_at })),
-  }, 200, { 'Content-Disposition': 'attachment; filename="lorem-store-account.json"' });
+  }, 200, { 'Content-Disposition': 'attachment; filename="storefront-skeleton-account.json"' });
 }
 
 // DELETE /api/account: hard delete in one atomic batch, including audit events. Throttle buckets are keyed by HMAC and expire on their own.

@@ -31,7 +31,7 @@ The current state:
 - **Production pipeline.** `.github/workflows/ci.yml` verifies a commit. Its `deploy` job runs only for `refs/heads/main` on `push` or `workflow_dispatch`. It validates inputs with `tools/cloudflare-config.mjs`, which writes the ignored `wrangler.production.json`. It applies remote D1 migrations, then deploys code, assets and the `MYDROP_API_KEY` secret in one version with `tools/cloudflare-secrets.mjs --deploy` (`wrangler deploy --secrets-file`). `.github/workflows/deploy.yml` is a manual wrapper that calls `ci.yml`.
 - **Configuration.** All values are repository-level GitHub secrets and variables, such as `CLOUDFLARE_D1_DATABASE_ID` and `CF_ACCESS_AUD`. The decision assumed a private repository on GitHub Free. On that plan, branch protection is unavailable, and GitHub documents environment secrets and variables as unavailable for private repositories. Required reviewers and deployment-branch rules on environments are also unavailable.
 - **Shared Cloudflare account.** The account can also hold other production resources, including unrelated production D1 databases.
-- **Wrangler config.** `wrangler.jsonc` is parsed with `JSON.parse`, both by `tools/check.mjs` and by the config generator, so it must stay comment-free. It has one top-level Worker (`lorem-store`), a D1 binding `DB` with a placeholder UUID, `vars.APP_ENV=development`, a production cron (six-hourly when written; now every 5 minutes with an hourly per-supplier sync), and `assets.run_worker_first` as a path list. Static assets outside that list are served without running the Worker.
+- **Wrangler config.** `wrangler.jsonc` is parsed with `JSON.parse`, both by `tools/check.mjs` and by the config generator, so it must stay comment-free. It has one top-level Worker (`storefront-skeleton`), a D1 binding `DB` with a placeholder UUID, `vars.APP_ENV=development`, a production cron (six-hourly when written; now every 5 minutes with an hourly per-supplier sync), and `assets.run_worker_first` as a path list. Static assets outside that list are served without running the Worker.
 - **Indexing.** Production robots policy is allow-all. Private paths get `X-Robots-Tag: noindex, nofollow` from `isPrivatePath`.
 - **Manager authentication.** `apps/api/src/auth.js` accepts a Cloudflare Access RS256 JWT for `CF_ACCESS_TEAM_NAME` and `CF_ACCESS_AUD`. It prefers the `CF-Access-Jwt-Assertion` header over the first `CF_Authorization` cookie. The development bypass requires `AUTH_DEV_BYPASS=true`, `APP_ENV !== "production"` **and** a loopback hostname.
 - **Production Access.** The production Access application covers `/admin`, `/admin/*`, `/api/admin/*` and `/api/auth/*` and allows only the manager identities. It stays untouched by this ADR.
@@ -54,12 +54,12 @@ The `env.staging` block must set or override:
 
 | Key | Staging value | Why |
 | --- | --- | --- |
-| `name` | `lorem-store-staging` | Separate Worker script, versions, secrets and logs |
+| `name` | `storefront-skeleton-staging` | Separate Worker script, versions, secrets and logs |
 | `workers_dev`, `preview_urls` | `false` | The only entry points are the two Access-gated custom domains. A `workers.dev` URL would bypass the gate. |
 | `triggers` | `{ "crons": [] }` | Inheritable, so it must be emptied explicitly. Staging never runs scheduled supplier sync. |
 | `assets` | Same as top level, but with `"run_worker_first": true` | Every response, including hashed static assets, passes through the Worker so it can get the staging noindex header (d) |
-| `d1_databases` | `[{binding:"DB", database_name:"lorem-store-staging", database_id:<placeholder>, migrations_dir:"migrations"}]` | Staging D1 only |
-| `r2_buckets` | Omitted by default. If used, exactly `lorem-store-media-staging`. | Without R2, uploads return the existing 503. The production bucket is never bound. |
+| `d1_databases` | `[{binding:"DB", database_name:"storefront-skeleton-staging", database_id:<placeholder>, migrations_dir:"migrations"}]` | Staging D1 only |
+| `r2_buckets` | Omitted by default. If used, exactly `storefront-skeleton-media-staging`. | Without R2, uploads return the existing 503. The production bucket is never bound. |
 | `vars` | `APP_ENV:"staging"`, `OIDC_REDIRECT_ORIGINS:"https://staging.example.com"`, `ADMIN_HOST:"staging-admin.example.com"`, plus empty `CF_ACCESS_TEAM_NAME`, `CF_ACCESS_AUD` and `GOOGLE_CLIENT_ID` placeholders | Non-inheritable. There is never an `AUTH_DEV_BYPASS` key. |
 | `routes` | Not declared | The lead attaches both custom domains (`staging.example.com` and `staging-admin.example.com`) once in the dashboard, so the CI token needs no zone permissions |
 
@@ -85,17 +85,17 @@ The `env.staging` block must set or override:
 **Local checks.** The staging generator fails closed unless all of these hold. None of them need the network.
 
 - **Names and flags.**
-  - `name === "lorem-store-staging"`.
+  - `name === "storefront-skeleton-staging"`.
   - `vars.APP_ENV === "staging"`, and `AUTH_DEV_BYPASS` is absent.
   - `vars.OIDC_REDIRECT_ORIGINS === "https://staging.example.com"`.
   - `vars.ADMIN_HOST === "staging-admin.example.com"`.
   - `triggers.crons` is empty, and `workers_dev` and `preview_urls` are `false`.
 - **D1.**
-  - The D1 `database_name` is `lorem-store-staging`.
+  - The D1 `database_name` is `storefront-skeleton-staging`.
   - `STAGING_D1_DATABASE_ID` is a valid UUID and not the placeholder.
   - The production variable `CLOUDFLARE_D1_DATABASE_ID` is **non-empty** and different from `STAGING_D1_DATABASE_ID`.
 - **R2, if `STAGING_R2_BUCKET` is set.**
-  - It equals `lorem-store-media-staging`.
+  - It equals `storefront-skeleton-media-staging`.
   - `CLOUDFLARE_R2_BUCKET` is non-empty and different. Consequence: staging R2 needs the production bucket variable to be configured.
 - **Access audience.**
   - `STAGING_CF_ACCESS_AUD` is 64 hex characters.
@@ -103,8 +103,8 @@ The `env.staging` block must set or override:
 
 **Remote identity checks.** These run in the staging workflow, with the staging token, before the history check and before migrations.
 
-- **D1.** Resolve the database by **name**, for example with `wrangler d1 info lorem-store-staging --json` or `wrangler d1 list --json`. Require exactly one match, and require its UUID to equal `STAGING_D1_DATABASE_ID`. Otherwise fail closed. Proving the ID differs from the catalog production UUID is not enough, because the account can hold other production databases. A mistyped ID could point at any of them.
-- **R2.** If R2 is used, confirm the bucket `lorem-store-media-staging` exists (for example with `wrangler r2 bucket info`). The binding is by name, and the name allowlist above prevents binding any other bucket.
+- **D1.** Resolve the database by **name**, for example with `wrangler d1 info storefront-skeleton-staging --json` or `wrangler d1 list --json`. Require exactly one match, and require its UUID to equal `STAGING_D1_DATABASE_ID`. Otherwise fail closed. Proving the ID differs from the catalog production UUID is not enough, because the account can hold other production databases. A mistyped ID could point at any of them.
+- **R2.** If R2 is used, confirm the bucket `storefront-skeleton-media-staging` exists (for example with `wrangler r2 bucket info`). The binding is by name, and the name allowlist above prevents binding any other bucket.
 
 **Production-like posture.** Staging must be as strict as production. Code today checks `APP_ENV === "production"`, and ADR-0003 has fail-closed checks worded "in production". Contract for new security checks: any `APP_ENV` other than the explicit local value `development` is production-like. This covers fail-closed missing configuration, `__Host-` cookies and no development cookie names.
 
@@ -148,8 +148,8 @@ GitHub resolves a same-named secret or variable at environment level first, then
 | --- | --- | --- |
 | `STAGING_CLOUDFLARE_API_TOKEN` | Secret | Separate token with the production token's permission set: Workers Scripts edit, D1 edit, and R2 edit if used. Revocable on its own. It is still account-scoped, so it is not a hard isolation boundary. |
 | `CLOUDFLARE_ACCOUNT_ID` | Secret (existing) | Same account. Reused, not duplicated. |
-| `STAGING_D1_DATABASE_ID` | Variable | UUID of `lorem-store-staging`. Checked remotely by name. |
-| `STAGING_R2_BUCKET` | Variable, optional | Exactly `lorem-store-media-staging`, and only if uploads are tested |
+| `STAGING_D1_DATABASE_ID` | Variable | UUID of `storefront-skeleton-staging`. Checked remotely by name. |
+| `STAGING_R2_BUCKET` | Variable, optional | Exactly `storefront-skeleton-media-staging`, and only if uploads are tested |
 | `CF_ACCESS_TEAM_NAME` | Variable (existing) | Same Zero Trust team. Not secret. |
 | `STAGING_CF_ACCESS_AUD` | Variable | 64-hex audience tag of the **staging manager** Access application on the admin host (e). Never equal to production's. Written into Worker var `CF_ACCESS_AUD`. |
 | `STAGING_URL` | Variable | `https://staging.example.com`. Set only after the custom domain is attached. Enables the gate-host smoke check. |
@@ -160,7 +160,7 @@ GitHub resolves a same-named secret or variable at environment level first, then
 | `APP_ENV`, `OIDC_REDIRECT_ORIGINS`, `ADMIN_HOST` | Committed `env.staging.vars` | `staging`, `https://staging.example.com` and `staging-admin.example.com`. Not secret, and fixed. |
 
 - **`AUTH_DEV_BYPASS`.** Never set on staging, and rejected by the generator.
-- **Secret upload.** Secrets are uploaded atomically with the version, using the existing `--secrets-file` mechanism through a staging mode of `tools/cloudflare-secrets.mjs`. Wrangler keeps existing secrets that are missing from the file. Removing a staging secret needs an explicit `wrangler secret delete --name lorem-store-staging`.
+- **Secret upload.** Secrets are uploaded atomically with the version, using the existing `--secrets-file` mechanism through a staging mode of `tools/cloudflare-secrets.mjs`. Wrangler keeps existing secrets that are missing from the file. Removing a staging secret needs an explicit `wrangler secret delete --name storefront-skeleton-staging`.
 - **Customer-auth values before ADR-0003 merges.** `GOOGLE_*` and `CUSTOMER_AUTH_HMAC_KEY` are optional until the customer-account code merges. The Worker's fail-closed 503 covers a missing client. Once the code merges, the staging generator requires them.
 - **`MYDROP_API_KEY`: none on staging.** The key is account-wide, and any MyDrop import, even read-only, writes real supplier products, costs and identifiers into a less-protected database. That contradicts "never copy the real products". Without the key, sync reports the existing actionable error. Revisit only with a separate MyDrop test account or a synthetic supplier stub.
 - **Telegram (ADR-0004).** Linking stays unconfigured on staging until a separate staging bot or client exists. The production bot is never reused.
@@ -248,7 +248,7 @@ Each run follows this order:
 
 Migrations always run before deploy, and only with the staging config. The staging workflow contains no production config, ID or command, apart from the read-only inequality checks. Migrations stay forward-only and keep the shared numeric order. Do not edit applied migration files.
 
-The staging D1 is disposable. When the history check fails or the schema drifts, the lead resets staging: delete and recreate `lorem-store-staging`, update `STAGING_D1_DATABASE_ID`, then redispatch. A guarded reset workflow is a later option (see revisit triggers).
+The staging D1 is disposable. When the history check fails or the schema drifts, the lead resets staging: delete and recreate `storefront-skeleton-staging`, update `STAGING_D1_DATABASE_ID`, then redispatch. A guarded reset workflow is a later option (see revisit triggers).
 
 Data rules:
 
@@ -273,16 +273,16 @@ Data rules:
 
 **Rollback.**
 
-- **Code.** Redispatch an earlier reviewed SHA, or run `npx wrangler rollback --name lorem-store-staging`, always naming the staging script.
+- **Code.** Redispatch an earlier reviewed SHA, or run `npx wrangler rollback --name storefront-skeleton-staging`, always naming the staging script.
 - **Data.** D1 is not rolled back with code. Reset staging (g) if a schema is incompatible.
 - **Production.** Unaffected throughout.
 
 **Teardown** (lead-run, naming staging resources explicitly, including both custom domains; never run any of these commands without `staging` in the target):
 
 1. Remove the staging custom domain or domains.
-2. `wrangler delete --name lorem-store-staging`
-3. `wrangler d1 delete lorem-store-staging`
-4. Delete the optional `lorem-store-media-staging` bucket.
+2. `wrangler delete --name storefront-skeleton-staging`
+3. `wrangler d1 delete storefront-skeleton-staging`
+4. Delete the optional `storefront-skeleton-media-staging` bucket.
 5. Delete both staging Access applications. The production application stays.
 6. Delete the staging Google OAuth client, or the staging redirect URI if the client is shared.
 7. Delete the `STAGING_*` GitHub secrets and variables and the staging API token.
@@ -293,8 +293,8 @@ Data rules:
 Run these in order after this ADR is accepted. Agents perform none of them. Record IDs, audience tags and secret or variable **names**, never secret values or manager identities.
 
 1. **Confirm plans.** Check the Cloudflare Workers plan (Free or Paid). Confirm the GitHub plan; Free means no environment secrets and no deployment-branch rules, so use repository-level `STAGING_*` values.
-2. **D1.** Run `npx wrangler d1 create lorem-store-staging` and record the UUID. Confirm with `npx wrangler d1 info lorem-store-staging` that the name resolves to that UUID.
-3. **R2 (optional, only if uploads are tested).** Run `npx wrangler r2 bucket create lorem-store-media-staging`. This requires the production `CLOUDFLARE_R2_BUCKET` variable to be set.
+2. **D1.** Run `npx wrangler d1 create storefront-skeleton-staging` and record the UUID. Confirm with `npx wrangler d1 info storefront-skeleton-staging` that the name resolves to that UUID.
+3. **R2 (optional, only if uploads are tested).** Run `npx wrangler r2 bucket create storefront-skeleton-media-staging`. This requires the production `CLOUDFLARE_R2_BUCKET` variable to be set.
 4. **API token.** Create a Cloudflare API token for staging, with Workers Scripts edit, D1 edit, and R2 edit only if step 3 was done. No zone or DNS permissions.
 5. **Access applications.** These need explicit lead approval, and must exist before any DNS for either host. Create one application per hostname.
    - a. **Staging gate application.** Self-hosted, hostname `staging.example.com`, empty path (the whole host).
@@ -317,8 +317,8 @@ Run these in order after this ADR is accepted. Agents perform none of them. Reco
    - Do **not** set `STAGING_URL` or `STAGING_ADMIN_URL` yet.
    - Confirm the existing production variables `CLOUDFLARE_D1_DATABASE_ID` and `CF_ACCESS_AUD` are set, and `CLOUDFLARE_R2_BUCKET` if R2 is used. Their presence is required for the staging inequality checks.
    - Keep the existing `CF_ACCESS_TEAM_NAME`.
-9. **First deploy** (after the staging change merges). Dispatch **Deploy staging** from `main`. This creates the Worker `lorem-store-staging`. The smoke checks are skipped.
-10. **Custom domains.** In the Workers dashboard, open `lorem-store-staging`, go to Domains & Routes and add **two** custom domains: `staging.example.com` and `staging-admin.example.com`. Cloudflare creates the DNS records and certificates. On the same page, confirm the `workers.dev` route and Preview URLs are **disabled**.
+9. **First deploy** (after the staging change merges). Dispatch **Deploy staging** from `main`. This creates the Worker `storefront-skeleton-staging`. The smoke checks are skipped.
+10. **Custom domains.** In the Workers dashboard, open `storefront-skeleton-staging`, go to Domains & Routes and add **two** custom domains: `staging.example.com` and `staging-admin.example.com`. Cloudflare creates the DNS records and certificates. On the same page, confirm the `workers.dev` route and Preview URLs are **disabled**.
 11. **Enable the smoke checks.** Set the repository variables `STAGING_URL=https://staging.example.com` and `STAGING_ADMIN_URL=https://staging-admin.example.com`, then redispatch **Deploy staging** from `main`. Both smoke checks must pass, which proves each host has Access in front of the Worker.
 12. **Seed.** Sign in as a manager on `https://staging-admin.example.com/admin` and import only `fixtures/mydrop-demo.json`.
 13. **Record and hand over.** Record the D1 UUID, the manager application's audience tag and the names of the variables and secrets. Hand over to staging QA, including the Access QA case in (e).

@@ -42,7 +42,7 @@ export async function deployProduction(env = process.env, spawnProcess = spawn, 
 }
 
 async function runWranglerDeploy(configPath, secrets, childEnv, spawnProcess) {
-  const directory = await mkdtemp(join(tmpdir(), 'lorem-store-deploy-'));
+  const directory = await mkdtemp(join(tmpdir(), 'storefront-skeleton-deploy-'));
   try {
     await chmod(directory, 0o700);
     const secretsPath = join(directory, 'secrets.json');

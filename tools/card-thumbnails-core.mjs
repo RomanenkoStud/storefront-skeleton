@@ -13,8 +13,8 @@ export const MAX_LIMIT = 5000;
 export const CONCURRENCY = 4;
 export const MAX_SOURCE_BYTES = 25 * 1024 * 1024;
 export const ENVS = {
-  prod: { label: 'production', db: 'lorem-store', bucket: 'lorem-store-media' },
-  staging: { label: 'staging', db: 'lorem-store-staging', bucket: 'lorem-store-media-staging' },
+  prod: { label: 'production', db: 'storefront-skeleton', bucket: 'storefront-skeleton-media' },
+  staging: { label: 'staging', db: 'storefront-skeleton-staging', bucket: 'storefront-skeleton-media-staging' },
 };
 
 export function parseArgs(argv) {

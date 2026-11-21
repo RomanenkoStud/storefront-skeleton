@@ -2,7 +2,7 @@
   // E2E-only Worker config. Mirrors ../../wrangler.jsonc (default environment) and adds a local-only MEDIA R2 binding
   // so picture flows can run. Paths are relative to this file. Never used for staging or production.
   "$schema": "../../node_modules/wrangler/config-schema.json",
-  "name": "lorem-store-e2e",
+  "name": "storefront-skeleton-e2e",
   "main": "../../apps/api/src/index.js",
   "compatibility_date": "2026-11-12",
   "assets": {
@@ -17,13 +17,13 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "lorem-store",
+      "database_name": "storefront-skeleton",
       "database_id": "00000000-0000-0000-0000-000000000000",
       "migrations_dir": "../../migrations"
     }
   ],
   "r2_buckets": [
-    { "binding": "MEDIA", "bucket_name": "lorem-store-e2e-media" }
+    { "binding": "MEDIA", "bucket_name": "storefront-skeleton-e2e-media" }
   ],
   "vars": { "APP_ENV": "development", "CF_ACCESS_TEAM_NAME": "", "CF_ACCESS_AUD": "" }
 }

@@ -211,7 +211,7 @@ test('cloudflare analytics: not configured without token, partial failures stay 
   assert.equal(usage.d1.rowsWritten, 70);
   assert.deepEqual(usage.r2, { classA: 9, classB: 90, free: 4 });
   assert.equal(usage.period.from, '2026-11-01T00:00:00.000Z');
-  assert.equal(usage.workerName, 'lorem-store-staging');
+  assert.equal(usage.workerName, 'storefront-skeleton-staging');
   assert.ok(calls.every(c => c.url === 'https://api.cloudflare.com/client/v4/graphql' && c.init.headers.Authorization === 'Bearer tok-secret' && !c.init.body.includes('tok-secret')));
   assert.equal(calls.find(c => c.body.query.includes('d1Analytics')).body.variables.d, 'db-id');
   const cachedCalls = calls.length;

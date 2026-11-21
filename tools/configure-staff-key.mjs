@@ -2,7 +2,7 @@ import { randomBytes } from 'node:crypto';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-export const WORKER_NAME = 'lorem-store';
+export const WORKER_NAME = 'storefront-skeleton';
 export const SECRET_NAME = 'STAFF_AUTH_HMAC_KEY';
 
 // Explicit production operator action. Existing bindings are preserved, never rotated.

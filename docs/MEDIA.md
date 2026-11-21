@@ -5,7 +5,7 @@ For the HTTP contract, see [API.md](API.md).
 
 ## R2 layout
 
-The Worker binding `MEDIA` is the photo bucket (`lorem-store-media`, staging `lorem-store-media-staging`). `tools/cloudflare-config.mjs` adds the binding from the deploy variables (`CLOUDFLARE_R2_BUCKET`, `STAGING_R2_BUCKET`). Without `MEDIA`, uploads and cutouts return `503`.
+The Worker binding `MEDIA` is the photo bucket (`storefront-skeleton-media`, staging `storefront-skeleton-media-staging`). `tools/cloudflare-config.mjs` adds the binding from the deploy variables (`CLOUDFLARE_R2_BUCKET`, `STAGING_R2_BUCKET`). Without `MEDIA`, uploads and cutouts return `503`.
 
 | Key | Content | Written by |
 | --- | --- | --- |

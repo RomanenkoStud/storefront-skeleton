@@ -14,8 +14,8 @@ import { homedir, tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const ENVS = {
-  prod: { db: 'lorem-store', bucket: 'lorem-store-media' },
-  staging: { db: 'lorem-store-staging', bucket: 'lorem-store-media-staging' },
+  prod: { db: 'storefront-skeleton', bucket: 'storefront-skeleton-media' },
+  staging: { db: 'storefront-skeleton-staging', bucket: 'storefront-skeleton-media-staging' },
 };
 const LIMIT_EXIT = 75;
 

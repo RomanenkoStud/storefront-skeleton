@@ -15,7 +15,7 @@ test('environments: production is the default and the two never share a database
   assert.equal(parseArgs([]).env, 'prod');
   assert.notEqual(ENVS.prod.db, ENVS.staging.db);
   assert.notEqual(ENVS.prod.bucket, ENVS.staging.bucket);
-  assert.equal(ENVS.staging.bucket, 'lorem-store-media-staging');
+  assert.equal(ENVS.staging.bucket, 'storefront-skeleton-media-staging');
 });
 
 test('first photo mirrors the public projection: overlay photos win, null inherits, empty source gives none', () => {

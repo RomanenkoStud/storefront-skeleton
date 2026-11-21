@@ -102,7 +102,7 @@ export function cloudflareConfig(env) {
   const missing = [];
   if (!env.CF_ANALYTICS_API_TOKEN) missing.push('CF_ANALYTICS_API_TOKEN (secret)');
   if (!/^[0-9a-f]{32}$/.test(env.INFRA_ACCOUNT_ID || '')) missing.push('INFRA_ACCOUNT_ID (var)');
-  const workerName = env.INFRA_WORKER_NAME || (env.APP_ENV === 'staging' ? 'lorem-store-staging' : 'lorem-store');
+  const workerName = env.INFRA_WORKER_NAME || (env.APP_ENV === 'staging' ? 'storefront-skeleton-staging' : 'storefront-skeleton');
   return { configured: !missing.length, missing, workerName, databaseId: env.INFRA_D1_DATABASE_ID || null, bucketName: env.INFRA_R2_BUCKET || null };
 }
 
